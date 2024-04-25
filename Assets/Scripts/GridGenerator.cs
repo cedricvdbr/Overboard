@@ -5,9 +5,9 @@ using UnityEngine;
 public class GridGenerator : MonoBehaviour
 {
     [SerializeField]
-    private int _floorWidth = 10;
+    private int _floorWidth = 22;
     [SerializeField]
-    private int _floorHeight = 10;
+    private int _floorHeight = 15;
     [SerializeField]
     private GameObject _tilePrefab;
 
