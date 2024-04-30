@@ -6,13 +6,10 @@ public class ButtonMasher
 {
     private ArrayList _keys;
     private KeyCode _currentKey;
+    private float _currentNewKeyIndex = 30;
+    ButtonMashBattle _parent;
 
-    private float _keyFrameTimer;
-
-    [SerializeField]
-    private float SecondsBeforeRenew;
-
-    public ButtonMasher(KeyCode key1, KeyCode key2, KeyCode key3, KeyCode key4)
+    public ButtonMasher(KeyCode key1, KeyCode key2, KeyCode key3, KeyCode key4, ButtonMashBattle parent)
     {
         _keys = new ArrayList();
 
@@ -22,17 +19,17 @@ public class ButtonMasher
         _keys.Add(key4);
 
         _currentKey = key1;
+        _parent = parent;
     }
 
-    public void Update()
+    public void NewUpdate()
     {
-        _keyFrameTimer += Time.deltaTime;
-
-        if (_keyFrameTimer >= SecondsBeforeRenew)
+        if (_currentNewKeyIndex !=  _parent.newKeyIndex)
         {
-            int newKeyIndex = Random.Range(0, _keys.Count);
-            _currentKey = (KeyCode)_keys[newKeyIndex];
+            _currentKey = (KeyCode)_keys[_parent.newKeyIndex];
         }
+
+        _currentNewKeyIndex = _parent.newKeyIndex;
     }
 
     public KeyCode GetCurrentKey()
