@@ -22,7 +22,9 @@ public class CameraControl : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             _camRotation.y += Input.GetAxis("Mouse X") * _rotationSpeed;
-
+            _camRotation.z += Input.GetAxis("Mouse Y") * _rotationSpeed*(-1);
+            if (_camRotation.z > 30) _camRotation.z = 30;
+            if (_camRotation.z < -30) _camRotation.z = -30;
             transform.localRotation = Quaternion.Euler(_camRotation.x, _camRotation.y, _camRotation.z);
         }
     }
