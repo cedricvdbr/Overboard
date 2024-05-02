@@ -35,7 +35,7 @@ public class PanelController : MonoBehaviour
     {
         _currentPanelIndex += indexChange;
         if (_currentPanelIndex >= Panels.Length) _currentPanelIndex = 0;
-        if (_currentPanelIndex < Panels.Length) _currentPanelIndex = Panels.Length - 1;
+        if (_currentPanelIndex < 0) _currentPanelIndex = Panels.Length - 1;
     }
 
     private void ChangePanel()

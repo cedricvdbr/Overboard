@@ -22,7 +22,8 @@ public class ShipSelect_ButtonPressed : MonoBehaviour
     private void ChangePanel()
     {
         Debug.Log("Button '" + this.name + "' has been pressed");
-        int indexChange = int.Parse(this.GetComponentInChildren<TextMeshPro>().text);
+        TextMeshProUGUI tmp = this.GetComponentInChildren<TextMeshProUGUI>();
+        int indexChange = int.Parse(tmp.text);
         _panelController.SetCurrentPanel(indexChange);
     }
 
