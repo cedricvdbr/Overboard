@@ -10,13 +10,16 @@ public class PlayerControl : MonoBehaviour
     [SerializeField]
     private float _speed = 5.0f;
     private Vector3 _targetPosition;
+    [SerializeField]
     private int _remainingMovementSteps = 4;
     private bool _isMoving;
+    [SerializeField]
     private bool _isPlayerTurn = false;
     private TurnManager _turnManager;
 
     public bool IsCarribeanRum = false;
-    private bool isBeforeMovement = true;
+    [SerializeField]
+    private bool isBeforeMovement = true, _hasBeenUsed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +39,15 @@ public class PlayerControl : MonoBehaviour
         }
         else if (_isPlayerTurn)
         {
+            if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement && _isPlayerTurn && !_hasBeenUsed)
+            {
+                IsCarribeanRum = true;
+                _hasBeenUsed=true;
+            }
+            HandleAbilities();
             HandleInput();
         }
-        else if (!_isPlayerTurn)
+        if (_remainingMovementSteps >= 4)
         {
             isBeforeMovement = true;
         }
@@ -48,9 +57,9 @@ public class PlayerControl : MonoBehaviour
 
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement) IsCarribeanRum = true;
+        //if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement &&_isPlayerTurn) IsCarribeanRum = true;
 
-        HandleAbilities();
+        //HandleAbilities();
 
         if (_remainingMovementSteps > 0 && !_isMoving)
         {
@@ -88,8 +97,12 @@ public class PlayerControl : MonoBehaviour
 
     private bool AbilityIsOn(ref bool currentAbility)
     {
-        currentAbility = !currentAbility;
-        return !currentAbility;
+        if (currentAbility)
+        {
+            currentAbility = !currentAbility;
+            return true;
+        }
+        return false;
     }
 
     private void MovePlayer()
@@ -119,6 +132,7 @@ public class PlayerControl : MonoBehaviour
     {
         _remainingMovementSteps = 4;
         _isPlayerTurn = false;
+        _hasBeenUsed = false;
     }
 
     public void SetTargetPosition(Vector3 target)

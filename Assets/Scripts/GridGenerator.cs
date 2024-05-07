@@ -11,7 +11,7 @@ public class GridGenerator : MonoBehaviour
     [SerializeField]
     private GameObject _tilePrefab;
 
-
+    private List<GameObject> _tiles = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,7 @@ public class GridGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void GenerateFloor()
@@ -44,6 +44,7 @@ public class GridGenerator : MonoBehaviour
                 Vector3 tilePosition = new Vector3(floorPosition.x + x, 0, floorPosition.z + z);
                 GameObject tile=Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation);
                 tile.name = "tile";
+                _tiles.Add(tile);
             }
         }
         for (int x = _floorWidth; x < _floorWidth +2; x++)
