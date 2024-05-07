@@ -63,7 +63,7 @@ public class SelectShip : MonoBehaviour
 
     private void SwitchScenes()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
 }

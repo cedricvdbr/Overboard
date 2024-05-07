@@ -25,7 +25,7 @@ public class MainShipselectController : MonoBehaviour
 
     private void SwitchScenes()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(3);
         count++;
     }
 
