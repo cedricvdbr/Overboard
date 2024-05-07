@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,6 +14,9 @@ public class PlayerControl : MonoBehaviour
     private bool _isMoving;
     private bool _isPlayerTurn = false;
     private TurnManager _turnManager;
+
+    public bool IsCarribeanRum = false;
+    private bool isBeforeMovement = true;
 
     // Start is called before the first frame update
     void Start()
@@ -33,10 +37,18 @@ public class PlayerControl : MonoBehaviour
         {
             HandleInput();
         }
+        else if (!_isPlayerTurn)
+        {
+            isBeforeMovement = true;
+        }
     }
 
     private void HandleInput()
     {
+        if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement) IsCarribeanRum = true;
+
+        HandleAbilities();
+
         if (_remainingMovementSteps > 0 && !_isMoving)
         {
             if (Input.GetMouseButtonDown(0))
@@ -65,6 +77,21 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void HandleAbilities()
+    {
+        if (AbilityIsOn(ref IsCarribeanRum))    
+        {
+            _remainingMovementSteps += 2;
+        }
+        isBeforeMovement = false;
+    }
+
+    private bool AbilityIsOn(ref bool currentAbility)
+    {
+        currentAbility = !currentAbility;
+        return !currentAbility;
     }
 
     private void MovePlayer()
