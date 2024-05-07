@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,18 +14,18 @@ public class PlayerControl : MonoBehaviour
     private bool _isMoving;
     private bool _isPlayerTurn = false;
     private TurnManager _turnManager;
-
     // Start is called before the first frame update
     void Start()
     {
         _targetPosition = transform.position;
         _isMoving = false;
-        _turnManager = FindObjectOfType<TurnManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        _turnManager = FindObjectOfType<TurnManager>();
+
         if (_isMoving)
         {
             MovePlayer();
@@ -35,36 +36,33 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+
+
     private void HandleInput()
     {
         if (_remainingMovementSteps > 0 && !_isMoving)
         {
-            if (Input.GetMouseButtonDown(0))
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Tile")&& !_isMoving)
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
+                Vector3 clickedPosition = hit.transform.position;
+                Vector3 difference = clickedPosition - transform.position;
+                if (Mathf.Abs(difference.x) == 1.0f && Mathf.Approximately(difference.z, 0.0f) ||
+                    Mathf.Abs(difference.z) == 1.0f && Mathf.Approximately(difference.x, 0.0f))
                 {
-                    if (hit.collider.CompareTag("Tile"))
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        if (!_isMoving)
-                        {
-                            Vector3 clickedPosition = hit.transform.position;
-                            Vector3 difference = clickedPosition - transform.position;
-
-                            if (Mathf.Abs(difference.x) == 1.0f && Mathf.Approximately(difference.z, 0.0f) ||
-                                Mathf.Abs(difference.z) == 1.0f && Mathf.Approximately(difference.x, 0.0f))
-                            {
-                                _targetPosition = new Vector3(clickedPosition.x, transform.position.y, clickedPosition.z);
-                                _isMoving = true;
-                                _remainingMovementSteps--;
-                            }
-                        }
+                        _targetPosition = new Vector3(clickedPosition.x, transform.position.y, clickedPosition.z);
+                        _isMoving = true;
+                        _remainingMovementSteps--;
                     }
+                                
                 }
-            }
+                        
+            } 
         }
+        
     }
 
     private void MovePlayer()
