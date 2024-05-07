@@ -27,7 +27,7 @@ public class TurnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Current player: " + currentPlayer.name);
+        //Debug.Log("Current player: " + currentPlayer.name);
     }
 
     void StartPlayerTurn()
