@@ -23,11 +23,16 @@ public class PlayerControl : MonoBehaviour
     private bool isBeforeMovement = true, _hasBeenUsed = false;
 
     private GridGenerator _gridGenerator;
+    private LayerMask _tileLayer;
+    private bool _isRandomAbility = false;
+
     void Start()
     {
         _gridGenerator = FindFirstObjectByType<GridGenerator>();
         _targetPosition = transform.position;
         _isMoving = false;
+        _tileLayer = LayerMask.GetMask("Tile");
+
     }
 
     void Update()
@@ -70,7 +75,7 @@ public class PlayerControl : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("Tile")&& !_isMoving)
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, _tileLayer) && !_isMoving)
             {
                 Vector3 clickedPosition = hit.transform.position;
                 Vector3 difference = clickedPosition - transform.position;
@@ -149,5 +154,15 @@ public class PlayerControl : MonoBehaviour
     public bool IsMoving()
     {
         return _isMoving;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Barrel"))
+        {
+            Destroy(other.gameObject);
+            _isRandomAbility = true;
+            Debug.Log("Barrel destroyed, random ability obtained...");
+        }
     }
 }
