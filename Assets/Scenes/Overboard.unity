@@ -414,6 +414,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &898455315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 898455317}
+  - component: {fileID: 898455316}
+  m_Layer: 0
+  m_Name: WallGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &898455316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898455315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f94c5f18ceed35a4c870ef653752b2c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wall: {fileID: 207312813840117935, guid: 2c2cbd0c2ccc60a45a4504875b0c0c4a, type: 3}
+  _layout1: {fileID: 3645812033422053409, guid: 03e568cbbf6131c4c852042a825833d0, type: 3}
+  _layout2: {fileID: 7586907454584548753, guid: 34761231da181fa4bb68c3854096dca9, type: 3}
+  _layout3: {fileID: 5830627487633599277, guid: 4bd5a2809edcb8040ae6b2f26856c892, type: 3}
+  _player1Ship: 0
+  _player2Ship: 0
+--- !u!4 &898455317
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 898455315}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1106445588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -500,8 +550,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d14bd1335cacba49b7fa922b9725387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _floorWidth: 18
-  _floorHeight: 15
+  FloorWidth: 18
+  FloorHeight: 15
   _tilePrefab: {fileID: 6496795340069336631, guid: de0bc9355bad3e34c995bb7e100d470c, type: 3}
 --- !u!4 &1203438613
 Transform:
@@ -631,6 +681,7 @@ SceneRoots:
   - {fileID: 723717520}
   - {fileID: 655078739}
   - {fileID: 1203438613}
+  - {fileID: 898455317}
   - {fileID: 2113715698}
   - {fileID: 708574500}
   - {fileID: 5087442481111086415}
