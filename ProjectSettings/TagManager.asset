@@ -6,12 +6,11 @@ TagManager:
   tags:
   - Tile
   - UI_ShipName
-  - Barrel
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Tile
+  - 
   - Water
   - UI
   - 
