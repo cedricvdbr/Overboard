@@ -19,6 +19,10 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.mouseScrollDelta != Vector2.zero)
+        {
+            Camera.main.fieldOfView = Mathf.Clamp(Camera.main.fieldOfView -= Input.mouseScrollDelta.y, 40, 60);
+        }
         if (Input.GetMouseButton(1))
         {
             _camRotation.y += Input.GetAxis("Mouse X") * _rotationSpeed;

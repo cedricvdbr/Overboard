@@ -5,13 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
+
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5.0f;
     private Vector3 _targetPosition;
     [SerializeField]
-    private int _remainingMovementSteps = 4;
+    private int _remainingMovementSteps = 4, _bridgeAmount=1;
     private bool _isMoving;
     [SerializeField]
     private bool _isPlayerTurn = false;
@@ -21,14 +22,14 @@ public class PlayerControl : MonoBehaviour
     [SerializeField]
     private bool isBeforeMovement = true, _hasBeenUsed = false;
 
-    // Start is called before the first frame update
+    private GridGenerator _gridGenerator;
     void Start()
     {
+        _gridGenerator = FindFirstObjectByType<GridGenerator>();
         _targetPosition = transform.position;
         _isMoving = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         _turnManager = FindObjectOfType<TurnManager>();
@@ -44,6 +45,7 @@ public class PlayerControl : MonoBehaviour
                 IsCarribeanRum = true;
                 _hasBeenUsed=true;
             }
+            HandleBridge();
             HandleAbilities();
             HandleInput();
         }
@@ -53,13 +55,16 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-
+    private void HandleBridge()
+    {
+        if (Input.GetKeyDown(KeyCode.B) && _bridgeAmount >0)
+        {
+            _gridGenerator.GenerateBridge(gameObject.transform.position, gameObject.name); 
+        }
+    }
 
     private void HandleInput()
     {
-        //if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement &&_isPlayerTurn) IsCarribeanRum = true;
-
-        //HandleAbilities();
 
         if (_remainingMovementSteps > 0 && !_isMoving)
         {
