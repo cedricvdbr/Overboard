@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlacePirates : MonoBehaviour
@@ -8,6 +9,7 @@ public class PlacePirates : MonoBehaviour
     private GameObject _piratePlayer1, _piratePlayer2, _turnManager, _treasureP1, _treasureP2;
     private int _pirateCounter = 0, _treasureCounter = 0;
     private GameObject _name;
+    private ArrayList _pawns = new ArrayList();
     // Update is called once per frame
     void Update()
     {
@@ -23,12 +25,18 @@ public class PlacePirates : MonoBehaviour
                     _pirateCounter++;
                     _name = Instantiate(_piratePlayer1, hit.transform.position, Quaternion.AngleAxis(90, Vector3.up));
                     _name.name = "pirate"+ _pirateCounter;
+                    PlayerControl controller = _name.GetComponent<PlayerControl>();
+                    controller.PlayerNumber = 1;
+                    _pawns.Add(controller);
                 }
                 if (_pirateCounter >2&&hit.collider.gameObject.name == "player2tile")
                 {
                     _pirateCounter++;
                     _name = Instantiate(_piratePlayer2, hit.transform.position, Quaternion.AngleAxis(-90, Vector3.up));
                     _name.name = "pirate" + _pirateCounter;
+                    PlayerControl controller = _name.GetComponent<PlayerControl>();
+                    controller.PlayerNumber = 2;
+                    _pawns.Add(controller);
                 }
             }
         }
@@ -54,6 +62,10 @@ public class PlacePirates : MonoBehaviour
         }
         if(_pirateCounter == 6 && _treasureCounter == 6)
         {
+            foreach (PlayerControl controller in _pawns)
+            {
+                controller.GetPlayers();
+            }
             _name=Instantiate(_turnManager);
             _name.name = "TurnManager";
             _pirateCounter = 7;

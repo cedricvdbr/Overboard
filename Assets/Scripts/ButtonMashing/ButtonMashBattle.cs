@@ -11,7 +11,7 @@ public class ButtonMashBattle
     private float _currentBattleStatus = 0;
 
     private bool _gameIsDone = false;
-    private string _gamewinner;
+    private int _gamewinner;
 
     protected float _keyFrameTimer;
     protected float _secondsBeforeRenew = 8;
@@ -45,16 +45,16 @@ public class ButtonMashBattle
             CheckKey(_player2, -1);
 
             //Debug.Log(_currentBattleStatus);
-            if (_currentBattleStatus >= 20) GameOver("player1");
-            if (_currentBattleStatus <= -20) GameOver("player2");
+            if (_currentBattleStatus >= 20) GameOver(1);
+            if (_currentBattleStatus <= -20) GameOver(2);
         }
 
     }
 
-    private void GameOver(string winner)
+    private void GameOver(int winnerNr)
     {
         _gameIsDone = true;
-        _gamewinner = winner;
+        _gamewinner = winnerNr;
     }
 
     private void CheckKey(ButtonMasher player, int playerValue)
@@ -70,7 +70,7 @@ public class ButtonMashBattle
         return _gameIsDone;
     }
 
-    public string GetGameWinner()
+    public int GetGameWinner()
     {
         return _gamewinner;
     }

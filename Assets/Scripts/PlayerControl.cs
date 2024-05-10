@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
@@ -10,17 +11,21 @@ public class PlayerControl : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5.0f;
-    private Vector3 _targetPosition;
+    public Vector3 _targetPosition;
     [SerializeField]
     private int _remainingMovementSteps = 4, _bridgeAmount=1;
     private bool _isMoving;
     [SerializeField]
     private bool _isPlayerTurn = false;
     private TurnManager _turnManager;
+    public int PlayerNumber;
+    private ButtonMashingController _startbuttonMashing;
 
     public bool IsCarribeanRum = false;
     [SerializeField]
     private bool isBeforeMovement = true, _hasBeenUsed = false;
+
+    private PlayerControl[] _players;
 
     private GridGenerator _gridGenerator;
     private LayerMask _tileLayer;
@@ -33,6 +38,7 @@ public class PlayerControl : MonoBehaviour
         _isMoving = false;
         _tileLayer = LayerMask.GetMask("Tile");
 
+        _startbuttonMashing = Component.FindFirstObjectByType<ButtonMashingController>();
     }
 
     void Update()
@@ -84,9 +90,14 @@ public class PlayerControl : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        _targetPosition = new Vector3(clickedPosition.x, transform.position.y, clickedPosition.z);
-                        _isMoving = true;
-                        _remainingMovementSteps--;
+                        PlayerControl playerOnTile = TileHasPlayer(clickedPosition);
+                        if (playerOnTile != null) AttackPlayer(playerOnTile);
+                        else
+                        {
+                            _targetPosition = new Vector3(clickedPosition.x, transform.position.y, clickedPosition.z);
+                            _isMoving = true;
+                            _remainingMovementSteps--;
+                        }
                     }
                                 
                 }
@@ -94,6 +105,34 @@ public class PlayerControl : MonoBehaviour
             } 
         }
         
+    }
+
+    private PlayerControl TileHasPlayer(Vector3 clickedPosition)
+    {
+        foreach (PlayerControl controller in _players)
+        {
+            if (controller._targetPosition == clickedPosition && controller.PlayerNumber != PlayerNumber) return controller;
+        }
+        return null;
+    }
+
+    private IEnumerator AttackPlayer(PlayerControl playerOnTile)
+    {
+        _startbuttonMashing.StartMashing();
+
+        yield return new WaitUntil(() => _startbuttonMashing.ButtonmashingIsDone() == true);
+
+        int winner = _startbuttonMashing.GetWinner();
+        if (winner == PlayerNumber)
+        {
+            // K.O. the other player
+            Debug.Log("this is where we would KO the other player because we won");
+        }
+        else
+        {
+            // K.O. ourselves
+            Debug.Log("this is where we would be KO because we lost");
+        }
     }
 
     private void HandleAbilities()
@@ -164,5 +203,10 @@ public class PlayerControl : MonoBehaviour
             _isRandomAbility = true;
             Debug.Log("Barrel destroyed, random ability obtained...");
         }
+    }
+
+    public void GetPlayers()
+    {
+        _players = Component.FindObjectsByType<PlayerControl>(FindObjectsSortMode.InstanceID);
     }
 }

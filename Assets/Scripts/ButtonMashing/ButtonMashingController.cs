@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartButtonMashing : MonoBehaviour
+public class ButtonMashingController : MonoBehaviour
 {
     private ButtonMashBattle _buttonmashBattle;
 
@@ -18,7 +18,7 @@ public class StartButtonMashing : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(1)) StartMashing();
+        //if (Input.GetMouseButtonDown(1)) StartMashing();
 
         if (_startGame)
         {
@@ -41,5 +41,15 @@ public class StartButtonMashing : MonoBehaviour
     public void StartMashing()
     {
         _startGame = true;
+    }
+
+    public bool ButtonmashingIsDone()
+    {
+        return _buttonmashBattle.IsGameDone();
+    }
+
+    public int GetWinner()
+    {
+        return _buttonmashBattle.GetGameWinner();
     }
 }
