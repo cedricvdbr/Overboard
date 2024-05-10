@@ -26,6 +26,10 @@ public class PlayerControl : MonoBehaviour
     private LayerMask _tileLayer;
     private bool _isRandomAbility = false;
 
+    [SerializeField]
+    private GameObject _arrowPrefab;
+    private GameObject _arrowInstance;
+
     void Start()
     {
         _gridGenerator = FindFirstObjectByType<GridGenerator>();
@@ -136,6 +140,11 @@ public class PlayerControl : MonoBehaviour
     public void StartPlayerTurn()
     {
         _isPlayerTurn = true;
+        if(_arrowInstance == null && _arrowPrefab != null)
+        {
+            _arrowInstance = Instantiate(_arrowPrefab, transform.position + Vector3.up * 2.0f, Quaternion.identity);
+            _arrowInstance.transform.parent = transform;
+        }
     }
 
     public void EndPlayerTurn()
@@ -143,6 +152,11 @@ public class PlayerControl : MonoBehaviour
         _remainingMovementSteps = 4;
         _isPlayerTurn = false;
         _hasBeenUsed = false;
+        if(_arrowInstance != null)
+        {
+            Destroy(_arrowInstance);
+            _arrowInstance = null;
+        }
     }
 
     public void SetTargetPosition(Vector3 target)

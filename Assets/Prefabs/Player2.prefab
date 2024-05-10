@@ -98,6 +98,7 @@ MonoBehaviour:
   IsCarribeanRum: 0
   isBeforeMovement: 1
   _hasBeenUsed: 0
+  _arrowPrefab: {fileID: 2640362114708447084, guid: 75cb65ab50d7a8d4f9e94f8b1507eb86, type: 3}
 --- !u!65 &6878336561135334647
 BoxCollider:
   m_ObjectHideFlags: 0

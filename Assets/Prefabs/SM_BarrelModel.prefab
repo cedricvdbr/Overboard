@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 6aa48116a450b6545ad72c7923fee7df, type: 2}
+    - target: {fileID: -5754084199372789682, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -5495902117074765545, guid: 53daea103c9fa8147b2767605b742449, type: 3}
     - target: {fileID: 919132149155446097, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
       propertyPath: m_Name
       value: SM_BarrelModel
