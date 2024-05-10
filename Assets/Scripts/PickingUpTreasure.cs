@@ -7,26 +7,30 @@ public class PickingUpTreasure : MonoBehaviour
 {
     //player needs tag player, same w Treasure. Treasure has rigidbody and is kinematic.
     //Treasure collider is assigned to Player(capsule collider)
-    private bool isTouchingTreasure;
+    private bool isTouchingTreasure = false;
     private GameObject Treasure;
     public Collider TreasureCollider;
 
     void Update()
     {
-        if (isTouchingTreasure==true)
+        if (isTouchingTreasure)
         {
             Treasure.transform.position = transform.position;
-            OnTriggerEnter(TreasureCollider);
+            
         }
 
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Treasure"))
+        if (other.CompareTag("Treasure")) 
         {
-            isTouchingTreasure = true;
-            Treasure = other.gameObject;
-            Debug.Log("it touches");
+            if (!isTouchingTreasure)
+            {
+                isTouchingTreasure = true;
+                Treasure = other.gameObject;
+                other.enabled = false;
+                Debug.Log("it touches");
+            }
         }
 
     }
