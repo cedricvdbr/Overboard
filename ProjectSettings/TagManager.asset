@@ -7,6 +7,7 @@ TagManager:
   - Tile
   - UI_ShipName
   - Barrel
+  - Treasure
   layers:
   - Default
   - TransparentFX
