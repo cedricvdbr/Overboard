@@ -74,7 +74,8 @@ public class PlayerControl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.B) && _bridgeAmount >0)
         {
-            _gridGenerator.GenerateBridge(gameObject.transform.position, gameObject.name); 
+            _gridGenerator.GenerateBridge(gameObject.transform.position, gameObject.name);
+            _bridgeAmount--;
         }
     }
 

@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _barrelPrefab: {fileID: 4216281159457733332, guid: 37e129b475cc8e24094f38e7ffb64db8, type: 3}
   _gridGenerator: {fileID: 0}
-  _numberOfBarrels: 3
+  _numberOfBarrels: 4

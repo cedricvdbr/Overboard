@@ -61,13 +61,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 6aa48116a450b6545ad72c7923fee7df, type: 2}
     - target: {fileID: -5754084199372789682, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: -5495902117074765545, guid: 53daea103c9fa8147b2767605b742449, type: 3}
+      objectReference: {fileID: -2225539225707241183, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
     - target: {fileID: 919132149155446097, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
       propertyPath: m_Name
       value: SM_BarrelModel
@@ -75,6 +79,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
       propertyPath: m_TagString
       value: Barrel
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
