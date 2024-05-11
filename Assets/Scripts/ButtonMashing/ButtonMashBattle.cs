@@ -8,7 +8,7 @@ public class ButtonMashBattle
 
     private ButtonMasher _player1, _player2;
 
-    private float _currentBattleStatus = 0;
+    public float _currentBattleStatus = 0;
 
     private bool _gameIsDone = false;
     private int _gamewinner;

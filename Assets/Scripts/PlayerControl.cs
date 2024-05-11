@@ -16,10 +16,10 @@ public class PlayerControl : MonoBehaviour
     private int _remainingMovementSteps = 4, _bridgeAmount=1;
     private bool _isMoving;
     [SerializeField]
-    private bool _isPlayerTurn = false;
+    private bool _isPlayerTurn = false, _isMashing;
     private TurnManager _turnManager;
     public int PlayerNumber;
-    private ButtonMashingController _startbuttonMashing;
+    private ButtonMashingController _buttonMashingController;
 
     public bool IsCarribeanRum = false;
     [SerializeField]
@@ -32,7 +32,7 @@ public class PlayerControl : MonoBehaviour
     private bool _isRandomAbility = false;
 
     [SerializeField]
-    private GameObject _arrowPrefab;
+    private GameObject _arrowPrefab, _buttonMasherPrefab, _buttonMasher;
     private GameObject _arrowInstance;
 
     void Start()
@@ -42,41 +42,89 @@ public class PlayerControl : MonoBehaviour
         _isMoving = false;
         _tileLayer = LayerMask.GetMask("Tile");
 
-        _startbuttonMashing = Component.FindFirstObjectByType<ButtonMashingController>();
     }
 
     void Update()
     {
         _turnManager = FindObjectOfType<TurnManager>();
 
-        if (_isMoving)
+
+        if (_isMashing)
         {
-            MovePlayer();
-        }
-        else if (_isPlayerTurn)
-        {
-            if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement && _isPlayerTurn && !_hasBeenUsed)
+            if (_buttonMashingController.ButtonmashingIsDone())
             {
-                IsCarribeanRum = true;
-                _hasBeenUsed=true;
+                _buttonMashingController._canvas.enabled = false;
+                int winner = _buttonMashingController.GetWinner();
+                if (winner == PlayerNumber)
+                {
+                    // K.O. the other player
+                    Debug.Log("this is where we would KO the other player because we won");
+                }
+                else
+                {
+                    // K.O. ourselves
+                    Debug.Log("this is where we would be KO because we lost");
+                    
+                }
+                _isMashing = false;
+                Destroy(_buttonMasher);
             }
-            HandleBridge();
-            HandleAbilities();
-            HandleInput();
+
         }
-        if (_remainingMovementSteps >= 4)
+        else
         {
-            isBeforeMovement = true;
+            if (_isMoving)
+            {
+                MovePlayer();
+            }
+            else if (_isPlayerTurn)
+            {
+                if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement && _isPlayerTurn && !_hasBeenUsed)
+                {
+                    IsCarribeanRum = true;
+                    _hasBeenUsed = true;
+                }
+                HandleBridge();
+                HandleAbilities();
+                HandleInput();
+                if(Input.GetKeyDown(KeyCode.S))
+                {
+                    _remainingMovementSteps = 1000;
+                    _bridgeAmount = 50;
+                    GetComponent<Renderer>().material.color = Color.yellow;
+                }
+            }
+            if (_remainingMovementSteps >= 4)
+            {
+                isBeforeMovement = true;
+            }
         }
     }
 
     private void HandleBridge()
     {
-        if (Input.GetKeyDown(KeyCode.B) && _bridgeAmount >0)
+        if (IsPlayer1OnEdge() || IsPlayer2OnEdge())
         {
-            _gridGenerator.GenerateBridge(gameObject.transform.position, gameObject.name);
-            _bridgeAmount--;
+            if (Input.GetKeyDown(KeyCode.B) && _bridgeAmount > 0)
+            {
+                _gridGenerator.GenerateBridge(gameObject.transform.position, gameObject.name);
+                _bridgeAmount--;
+            }
         }
+    }
+
+    private bool IsPlayer2OnEdge()
+    {
+        return name == "pirate4" && transform.position.x == 3
+            || name == "pirate5" && transform.position.x == 3
+            || name == "pirate6" && transform.position.x == 3;
+    }
+
+    private bool IsPlayer1OnEdge()
+    {
+        return name == "pirate1" && transform.position.x == -4 
+            || name == "pirate2" && transform.position.x == -4 
+            || name == "pirate3" && transform.position.x == -4;
     }
 
     private void HandleInput()
@@ -121,23 +169,14 @@ public class PlayerControl : MonoBehaviour
         return null;
     }
 
-    private IEnumerator AttackPlayer(PlayerControl playerOnTile)
+    private void AttackPlayer(PlayerControl playerOnTile)
     {
-        _startbuttonMashing.StartMashing();
+        _buttonMasher = Instantiate(_buttonMasherPrefab, Vector3.zero, Quaternion.identity);
+        _buttonMashingController = _buttonMasher.GetComponent<ButtonMashingController>();
+        _buttonMashingController.StartMashing();
+        _isMashing = true;
 
-        yield return new WaitUntil(() => _startbuttonMashing.ButtonmashingIsDone() == true);
-
-        int winner = _startbuttonMashing.GetWinner();
-        if (winner == PlayerNumber)
-        {
-            // K.O. the other player
-            Debug.Log("this is where we would KO the other player because we won");
-        }
-        else
-        {
-            // K.O. ourselves
-            Debug.Log("this is where we would be KO because we lost");
-        }
+        
     }
 
     private void HandleAbilities()
@@ -182,7 +221,7 @@ public class PlayerControl : MonoBehaviour
         _isPlayerTurn = true;
         if(_arrowInstance == null && _arrowPrefab != null)
         {
-            _arrowInstance = Instantiate(_arrowPrefab, transform.position + Vector3.up * 2.0f, Quaternion.identity);
+            _arrowInstance = Instantiate(_arrowPrefab, transform.position + Vector3.up * 3.0f, Quaternion.identity);
             _arrowInstance.transform.parent = transform;
         }
     }
