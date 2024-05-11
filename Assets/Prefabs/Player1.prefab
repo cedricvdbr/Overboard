@@ -97,11 +97,13 @@ MonoBehaviour:
   _bridgeAmount: 1
   _isPlayerTurn: 0
   _isMashing: 0
+  IsKO: 0
   PlayerNumber: 0
   IsCarribeanRum: 0
   isBeforeMovement: 1
   _hasBeenUsed: 0
   _arrowPrefab: {fileID: 2640362114708447084, guid: 75cb65ab50d7a8d4f9e94f8b1507eb86, type: 3}
+  _xPrefab: {fileID: 2537583405824346095, guid: 36b239396dfab34459d45628f38cecf0, type: 3}
   _buttonMasherPrefab: {fileID: 8827821691736792638, guid: b14cd035055f8d347b764f582af12ea9, type: 3}
   _buttonMasher: {fileID: 0}
 --- !u!65 &6079348133714639311

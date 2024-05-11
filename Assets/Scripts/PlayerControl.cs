@@ -17,6 +17,7 @@ public class PlayerControl : MonoBehaviour
     private bool _isMoving;
     [SerializeField]
     private bool _isPlayerTurn = false, _isMashing;
+    public bool IsKO;
     private TurnManager _turnManager;
     public int PlayerNumber;
     private ButtonMashingController _buttonMashingController;
@@ -26,14 +27,15 @@ public class PlayerControl : MonoBehaviour
     private bool isBeforeMovement = true, _hasBeenUsed = false;
 
     private PlayerControl[] _players;
+    private PlayerControl _clickedPlayer;
 
     private GridGenerator _gridGenerator;
     private LayerMask _tileLayer;
     private bool _isRandomAbility = false;
 
     [SerializeField]
-    private GameObject _arrowPrefab, _buttonMasherPrefab, _buttonMasher;
-    private GameObject _arrowInstance;
+    private GameObject _arrowPrefab, _xPrefab,_buttonMasherPrefab, _buttonMasher;
+    private GameObject _arrowInstance, _xInstance;
 
     void Start()
     {
@@ -48,7 +50,6 @@ public class PlayerControl : MonoBehaviour
     {
         _turnManager = FindObjectOfType<TurnManager>();
 
-
         if (_isMashing)
         {
             if (_buttonMashingController.ButtonmashingIsDone())
@@ -57,14 +58,15 @@ public class PlayerControl : MonoBehaviour
                 int winner = _buttonMashingController.GetWinner();
                 if (winner == PlayerNumber)
                 {
-                    // K.O. the other player
-                    Debug.Log("this is where we would KO the other player because we won");
+                    _clickedPlayer.IsKO = true;
+                    _clickedPlayer.PlaceX();
+                    _turnManager.EndTurn();
                 }
                 else
                 {
-                    // K.O. ourselves
-                    Debug.Log("this is where we would be KO because we lost");
-                    
+                    _turnManager.EndTurn();
+                    IsKO = true;
+                    PlaceX();
                 }
                 _isMashing = false;
                 Destroy(_buttonMasher);
@@ -73,11 +75,12 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
+
             if (_isMoving)
             {
                 MovePlayer();
             }
-            else if (_isPlayerTurn)
+            else if (_isPlayerTurn && !IsKO)
             {
                 if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement && _isPlayerTurn && !_hasBeenUsed)
                 {
@@ -94,10 +97,23 @@ public class PlayerControl : MonoBehaviour
                     GetComponent<Renderer>().material.color = Color.yellow;
                 }
             }
+            else if (_isPlayerTurn && IsKO)
+            {
+                _turnManager.EndTurn();
+                IsKO = false;
+            }
             if (_remainingMovementSteps >= 4)
             {
                 isBeforeMovement = true;
             }
+        }
+    }
+    public void PlaceX()
+    {
+        if (_xInstance == null && _xPrefab != null)
+        {
+            _xInstance = Instantiate(_xPrefab, transform.position + Vector3.up * 3.0f, Quaternion.identity);
+            _xInstance.transform.parent = transform;
         }
     }
 
@@ -171,6 +187,7 @@ public class PlayerControl : MonoBehaviour
 
     private void AttackPlayer(PlayerControl playerOnTile)
     {
+        _clickedPlayer = playerOnTile;
         _buttonMasher = Instantiate(_buttonMasherPrefab, Vector3.zero, Quaternion.identity);
         _buttonMashingController = _buttonMasher.GetComponent<ButtonMashingController>();
         _buttonMashingController.StartMashing();
@@ -235,6 +252,11 @@ public class PlayerControl : MonoBehaviour
         {
             Destroy(_arrowInstance);
             _arrowInstance = null;
+        } 
+        if(_xInstance != null)
+        {
+            Destroy(_xInstance);
+            _xInstance = null;
         }
     }
 
