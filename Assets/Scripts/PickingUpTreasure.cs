@@ -1,41 +1,75 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PickingUpTreasure : MonoBehaviour
 {
     //player needs tag player, same w Treasure. Treasure has rigidbody and is kinematic.
     //Treasure collider is assigned to Player(capsule collider)
-    private bool isTouchingTreasure = false;
-    private GameObject Treasure;
-    public Collider TreasureCollider;
+    private bool isTouchingPlayer = false, IsFollowingPlayer = false;
+    private GameObject _playerGO;
+    private PlayerControl _playerPC;
+    private GameObject _pickupTilePlayer1, _pickupTilePlayer2;
+    private TurnManager _turnManager;
+
+
+    private void Start()
+    {
+        _pickupTilePlayer1 = GameObject.Find("player1PickupTile");
+        _pickupTilePlayer2 = GameObject.Find("player2PickupTile");
+    }
 
     void Update()
     {
-        if (isTouchingTreasure)
+        //_turnManager = GetComponent<TurnManager>();
+        GameObject _turnManagerGO = GameObject.Find("TurnManager");
+        if (_turnManagerGO != null ) _turnManager = _turnManagerGO.GetComponent<TurnManager>();
+        if (isTouchingPlayer)
         {
-            Treasure.transform.position = transform.position;
-            
+            Vector3 newPosition = _playerGO.transform.position;
+            newPosition.y += 2;
+            transform.position = newPosition;
+            if (_turnManager != null) CheckForCollectionSpot();
         }
-
     }
+
+    private void CheckForCollectionSpot()
+    {
+        Vector3 actualPosition = transform.position;
+        actualPosition.y -= 2;
+        if (actualPosition == _pickupTilePlayer1.transform.position && _playerPC.PlayerNumber == 1)
+        {
+            _turnManager.ChangePlayer1Treasure(-1);
+            RemoveTreasure();
+        }
+        if (actualPosition == _pickupTilePlayer2.transform.position && _playerPC.PlayerNumber == 2)
+        {
+            _turnManager.ChangePlayer2Treasure(-1);
+            RemoveTreasure();
+        }
+    }
+
+    private void RemoveTreasure()
+    {
+        this.gameObject.SetActive(false);
+        this.enabled = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Treasure")) 
+        if (other.CompareTag("Player"))
         {
-            if (!isTouchingTreasure)
+            if (!isTouchingPlayer)
             {
-                isTouchingTreasure = true;
-                Treasure = other.gameObject;
-                other.enabled = false;
-                Debug.Log("it touches");
+                isTouchingPlayer = true;
+                IsFollowingPlayer = true;
+                _playerGO = other.gameObject;
+                _playerPC = _playerGO.GetComponent<PlayerControl>();
+                Debug.Log("treasure " + name + " is touching player");
             }
         }
 
-    }
-    private void OnTriggerExit(Collider other)
-    {
-     //when player hits/reaches collectionspot
     }
 }

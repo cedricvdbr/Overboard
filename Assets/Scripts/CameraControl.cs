@@ -7,8 +7,10 @@ public class CameraControl : MonoBehaviour
 
     [SerializeField]
     public float _rotationSpeed = 3;
-
+    [SerializeField]
     private Quaternion _camRotation;
+
+    private int _counter = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -25,10 +27,12 @@ public class CameraControl : MonoBehaviour
         }
         if (Input.GetMouseButton(1))
         {
+            _counter++;
             _camRotation.y += Input.GetAxis("Mouse X") * _rotationSpeed;
             _camRotation.z += Input.GetAxis("Mouse Y") * _rotationSpeed*(-1);
             if (_camRotation.z > 30) _camRotation.z = 30;
             if (_camRotation.z < -30) _camRotation.z = -30;
+            if (_counter == 1 && _camRotation.y < 150) _camRotation.y = 90;
             transform.localRotation = Quaternion.Euler(_camRotation.x, _camRotation.y, _camRotation.z);
         }
     }

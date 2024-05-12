@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class TurnManager : MonoBehaviour
     public PlayerControl player2Pawn1, player2Pawn2, player2Pawn3;
 
     private PlayerControl currentPlayer;
+
+    private int _player1TreasuresLeft = 3, _player2TreasuresLeft = 3;
+    private bool _isGameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -30,9 +34,50 @@ public class TurnManager : MonoBehaviour
         //Debug.Log("Current player: " + currentPlayer.name);
     }
 
+    public void ChangePlayer1Treasure(int change)
+    {
+        _player1TreasuresLeft += change;
+        if (_player1TreasuresLeft <= 0) GameOver(1);
+    }
+
+    public void ChangePlayer2Treasure(int change)
+    {
+        _player2TreasuresLeft += change;
+        if (_player2TreasuresLeft <= 0) GameOver(2);
+    }
+
+    private void GameOver(int winnerNr)
+    {
+        switch (winnerNr)
+        {
+            case 1:
+                StopGame();
+                ShowWinnerScreen(1);
+                break;
+            case 2:
+                StopGame();
+                ShowWinnerScreen(2);
+                break;
+        }
+    }
+
+    private void StopGame()
+    {
+        _isGameOver = true;
+        EndTurn();
+    }
+
+    private void ShowWinnerScreen(int winnerNr)
+    {
+        Debug.Log("the winner is player: " + winnerNr);
+    }
+
     void StartPlayerTurn()
     {
-        currentPlayer.StartPlayerTurn();
+        if (!_isGameOver)
+        {
+            currentPlayer.StartPlayerTurn();
+        }
     }
 
     public void EndTurn()

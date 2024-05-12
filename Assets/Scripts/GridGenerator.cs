@@ -65,10 +65,20 @@ public class GridGenerator : MonoBehaviour
         {
             for (int z = 0; z < FloorHeight; z++)
             {
-                Vector3 tilePosition = new Vector3(_floorPosition.x + x, 0, _floorPosition.z + z);
-                GameObject tile=Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation,_allTilesParent.transform);
-                tile.name = "player1tile";
-                tile.GetComponent<Renderer>().material.color = Color.green;
+                if ((z == MathF.Floor(FloorHeight / 2) || z == MathF.Ceiling(FloorHeight / 2)) && x == -2)
+                {
+                    Vector3 tilePosition = new Vector3(_floorPosition.x + x, 0, _floorPosition.z + z);
+                    GameObject tile = Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
+                    tile.name = "player1PickupTile";
+                    tile.GetComponent<Renderer>().material.color = Color.yellow;
+                }
+                else
+                {
+                    Vector3 tilePosition = new Vector3(_floorPosition.x + x, 0, _floorPosition.z + z);
+                    GameObject tile = Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
+                    tile.name = "player1tile";
+                    tile.GetComponent<Renderer>().material.color = Color.green;
+                }
             }
         }
         for (int x = 0; x < FloorWidth/3; x++)
@@ -97,10 +107,20 @@ public class GridGenerator : MonoBehaviour
         {
             for (int z = 0; z < FloorHeight; z++)
             {
-                Vector3 tilePosition = new Vector3(_floorPosition.x + x, 0, _floorPosition.z + z);
-                GameObject tile = Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
-                tile.name = "player2tile";
-                tile.GetComponent<Renderer>().material.color = Color.red;
+                if ((z == MathF.Floor(FloorHeight / 2) || z == MathF.Ceiling(FloorHeight / 2)) && x == FloorWidth + 1)
+                {
+                    Vector3 tilePosition = new Vector3(_floorPosition.x + x, 0, _floorPosition.z + z);
+                    GameObject tile = Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
+                    tile.name = "player2PickupTile";
+                    tile.GetComponent<Renderer>().material.color = Color.yellow;
+                }
+                else
+                {
+                    Vector3 tilePosition = new Vector3(_floorPosition.x + x, 0, _floorPosition.z + z);
+                    GameObject tile = Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
+                    tile.name = "player2tile";
+                    tile.GetComponent<Renderer>().material.color = Color.red;
+                }
             }
         }
     }
