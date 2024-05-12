@@ -13,6 +13,19 @@ public class TurnManager : MonoBehaviour
 
     private int _player1TreasuresLeft = 3, _player2TreasuresLeft = 3;
     private bool _isGameOver = false;
+    private int _cannonAmountP1 = 1, _cannonAmountP2 = 1;
+
+    public int CannonAmountP1
+    {
+        get { return _cannonAmountP1; }
+        set { _cannonAmountP1 = value; }
+    }
+
+    public int CannonAmountP2
+    {
+        get { return _cannonAmountP2; }
+        set { _cannonAmountP2 = value; }
+    }
 
     // Start is called before the first frame update
     void Start()
