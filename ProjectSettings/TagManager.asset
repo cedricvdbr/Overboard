@@ -8,6 +8,7 @@ TagManager:
   - UI_ShipName
   - Barrel
   - Treasure
+  - CannonBall
   layers:
   - Default
   - TransparentFX
@@ -15,9 +16,9 @@ TagManager:
   - Tile
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Wall
+  - Cannon
+  - Barrel
   - 
   - 
   - 

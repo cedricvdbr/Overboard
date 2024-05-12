@@ -10,6 +10,20 @@ public class TurnManager : MonoBehaviour
 
     private PlayerControl currentPlayer;
 
+    private int _cannonAmountP1 = 1, _cannonAmountP2 = 1;
+
+    public int CannonAmountP1
+    {
+        get { return _cannonAmountP1; }
+        set { _cannonAmountP1 = value; }
+    }
+
+    public int CannonAmountP2
+    {
+        get { return _cannonAmountP2; }
+        set { _cannonAmountP2 = value; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
