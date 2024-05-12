@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 409520801}
   - component: {fileID: 409520802}
   m_Layer: 0
-  m_Name: BGM
+  m_Name: Victory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,12 +442,12 @@ AudioSource:
   m_GameObject: {fileID: 409520800}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2733899676080571862, guid: 50803fe8ef9337e4bbdf6629d54884d6, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 0f5f6fa60cd089c43b97f6fa2dca0ec4, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
