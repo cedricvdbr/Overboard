@@ -26,6 +26,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField]
     private bool isBeforeMovement = true, _hasBeenUsed = false;
 
+    public bool IsCarryingTreasure = false;
+
     private PlayerControl[] _players;
     private PlayerControl _clickedPlayer;
 

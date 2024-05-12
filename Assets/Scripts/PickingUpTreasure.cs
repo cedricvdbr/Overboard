@@ -63,11 +63,16 @@ public class PickingUpTreasure : MonoBehaviour
         {
             if (!isTouchingPlayer)
             {
-                isTouchingPlayer = true;
-                IsFollowingPlayer = true;
                 _playerGO = other.gameObject;
                 _playerPC = _playerGO.GetComponent<PlayerControl>();
                 Debug.Log("treasure " + name + " is touching player");
+
+                if ((_playerPC.PlayerNumber == 1 && name == "player1treasure") || (_playerPC.PlayerNumber == 2 && name == "player2treasure")) return;
+                if (_playerPC.IsCarryingTreasure) return;
+
+                isTouchingPlayer = true;
+                IsFollowingPlayer = true;
+                _playerPC.IsCarryingTreasure = true;
             }
         }
 
