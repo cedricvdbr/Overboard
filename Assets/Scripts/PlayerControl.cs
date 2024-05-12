@@ -22,7 +22,14 @@ public class PlayerControl : MonoBehaviour
     public int PlayerNumber;
     private ButtonMashingController _buttonMashingController;
 
-    public bool IsCarribeanRum = false;
+    //private List<bool> _abilities = new List<bool>();
+    //private bool _isCarribeanRum;
+    private string[] _abilityNames = new string[] { "Harpoon Gun", "Caribbean Rum", "Cursed Compass", "Parrot's Warning", "Broken Cannon Ball", "Curse Of The Flying Dutchman" };
+    private bool[] _availableAbilities = new bool[] { false, false, false, false, false, false };
+    private bool[] _abilities = new bool[] { false, false, false, false, false, false };
+    private bool _cantBeKOd = false;
+    private int _cantBeKOdCounter = 0;
+    private int _currentAbilityIndex = -1;
     [SerializeField]
     private bool isBeforeMovement = true, _hasBeenUsed = false;
 
@@ -54,6 +61,12 @@ public class PlayerControl : MonoBehaviour
     [SerializeField]
     private LayerMask _playerLayer;
 
+    private bool _playerHasBeenSelected = false;
+    private PlayerControl _hitPlayer;
+    private GameObject _gridgenGO;
+    private GridGenerator _gridgen;
+    private List<GameObject> _player1Tiles, _player2Tiles;
+
     void Start()
     {
         _gridGenerator = FindFirstObjectByType<GridGenerator>();
@@ -67,7 +80,27 @@ public class PlayerControl : MonoBehaviour
 
     void Update()
     {
+        _gridgenGO = GameObject.Find("GridGenerator");
+        if (_gridgenGO != null )
+        {
+            _gridgen = _gridgenGO.GetComponent<GridGenerator>();
+            _player1Tiles = _gridgen.TilePositionsP1;
+            _player2Tiles = _gridgen.TilePositionsP2;
+        }
         _turnManager = FindObjectOfType<TurnManager>();
+
+        if (_cantBeKOd && IsKO)
+        {
+            IsKO = false;
+            Destroy(_xInstance);
+            _xInstance = null;
+        }
+
+        if (_cantBeKOd && _cantBeKOdCounter == 1)
+        {
+            _cantBeKOd = false;
+            _cantBeKOdCounter = 0;
+        }
 
         if (_isMashing)
         {
@@ -94,16 +127,35 @@ public class PlayerControl : MonoBehaviour
         }
         else
         {
+            if (_isRandomAbility)
+            {
+                bool chooseANewOne = true;
+                foreach (bool ability in _abilities)
+                {
+                    if (ability) chooseANewOne = false;
+                }
 
+                if (chooseANewOne)
+                {
+                    //int chosenAbility = UnityEngine.Random.Range(0, _abilities.Length);
+                    int chosenAbility = UnityEngine.Random.Range(1, 4);
+                    _availableAbilities[chosenAbility] = true;
+                    _currentAbilityIndex = chosenAbility;
+                }
+
+                _isRandomAbility = false;
+            }
             if (_isMoving)
             {
                 MovePlayer();
             }
             else if (_isPlayerTurn && !IsKO)
             {
+                if (_currentAbilityIndex == -1) Debug.Log("currently no ability");
+                else Debug.Log("current ability: " + _abilityNames[_currentAbilityIndex]);
                 if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement && _isPlayerTurn && !_hasBeenUsed)
                 {
-                    IsCarribeanRum = true;
+                    _abilities[1] = true;
                     _hasBeenUsed = true;
                 }
                 HandleBridge();
@@ -373,18 +425,127 @@ public class PlayerControl : MonoBehaviour
 
     private void HandleAbilities()
     {
-        if (AbilityIsOn(ref IsCarribeanRum))    
+        if (Input.GetKeyDown(KeyCode.P))
         {
+            for (int i = 0; i < _availableAbilities.Length; i++)
+            {
+                if (_availableAbilities[i]) _abilities[i] = true;
+            }
+        }
+
+        if (AbilityIsOn(ref _abilities[0], true))
+        {
+            // harpoon gun
+
+            _availableAbilities[0] = false;
+            _currentAbilityIndex = -1;
+        }
+        if (AbilityIsOn(ref _abilities[1], true))    
+        {
+            // caribbean rum
             _remainingMovementSteps += 2;
+
+            _availableAbilities[1] = false;
+            _currentAbilityIndex = -1;
+        }
+        if (AbilityIsOn(ref _abilities[2], false))
+        {
+            // cursed compass
+            if (Input.GetMouseButtonDown(0)) HandlePlayerCLick();
+            if (_playerHasBeenSelected)
+            {
+                _abilities[2] = false;
+                int otherPlayerTilePlayernumber = _hitPlayer.GetTilePlayerNumber();
+                if (GetTilePlayerNumber() == otherPlayerTilePlayernumber)
+                {
+                    SwitchPlaces(_hitPlayer);
+                    _availableAbilities[2] = false;
+                    _currentAbilityIndex = -1;
+                }
+                _playerHasBeenSelected = false;
+            }
+        }
+        if (AbilityIsOn(ref _abilities[3], true))
+        {
+            // parrot's warning
+            _cantBeKOd = true;
+            _cantBeKOdCounter = 0;
+
+            _availableAbilities[3] = false;
+            _currentAbilityIndex = -1;
+        }
+        if (AbilityIsOn(ref _abilities[4], true))
+        {
+            // broken cannon ball
+
+            _availableAbilities[4] = false;
+            _currentAbilityIndex = -1;
+        }
+        if (AbilityIsOn(ref _abilities[5], true))
+        {
+            // curse of the flying dutchman
+
+            _availableAbilities[5] = false;
+            _currentAbilityIndex = -1;
         }
         isBeforeMovement = false;
     }
 
-    private bool AbilityIsOn(ref bool currentAbility)
+    private void SwitchPlaces(PlayerControl hitPlayer)
+    {
+        Vector3 currentLocation = transform.position;
+        transform.position = hitPlayer.transform.position;
+        hitPlayer.transform.position = currentLocation;
+    }
+
+    public int GetTilePlayerNumber()
+    {
+        int result = 1;
+
+        foreach (GameObject pos in _player1Tiles)
+        {
+            if (pos.transform.position == transform.position)
+            {
+                result = 1;
+                break;
+            }
+        }
+
+        foreach (GameObject pos in _player2Tiles)
+        {
+            if (pos.transform.position == transform.position)
+            {
+                result = 2;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    private void HandlePlayerCLick()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, _tileLayer))
+        {
+            Vector3 _hitPosition = hit.transform.position;
+            foreach (PlayerControl control in _players)
+            {
+                if (control.transform.position == _hitPosition)
+                {
+                    _hitPlayer = control;
+                    _playerHasBeenSelected = true;
+                }
+            }
+        }
+    }
+
+    private bool AbilityIsOn(ref bool currentAbility, bool TurnOff)
     {
         if (currentAbility)
         {
-            currentAbility = !currentAbility;
+            if (TurnOff) currentAbility = !currentAbility;
             return true;
         }
         return false;
@@ -420,6 +581,7 @@ public class PlayerControl : MonoBehaviour
 
     public void EndPlayerTurn()
     {
+        _cantBeKOdCounter++;
         _remainingMovementSteps = 4;
         _isPlayerTurn = false;
         _hasBeenUsed = false;

@@ -49,16 +49,36 @@ public class BarrelSpawner : MonoBehaviour
 
     private Vector3 GetRandomGridPositionP1()
     {
-        int randomIndex = Random.Range(0, _gridGenerator.TilePositionsP1.Count);
-        Vector3 randomPosition = _gridGenerator.TilePositionsP1[randomIndex];
+        Vector3 randomPosition = Vector3.zero;
+        bool keepGoing = true;
+        while (keepGoing)
+        {
+            int randomIndex = Random.Range(0, _gridGenerator.TilePositionsP1.Count);
+            GameObject randomPositionGO = _gridGenerator.TilePositionsP1[randomIndex];
+            if (randomPositionGO.name == "tile")
+            {
+                keepGoing = false;
+                randomPosition = randomPositionGO.transform.position;
+            }
+        }
 
         return randomPosition;
     }
 
     private Vector3 GetRandomGridPositionP2()
     {
-        int randomIndex = Random.Range(0, _gridGenerator.TilePositionsP2.Count);
-        Vector3 randomPosition = _gridGenerator.TilePositionsP2[randomIndex];
+        Vector3 randomPosition = Vector3.zero;
+        bool keepGoing = true;
+        while (keepGoing)
+        {
+            int randomIndex = Random.Range(0, _gridGenerator.TilePositionsP2.Count);
+            GameObject randomPositionGO = _gridGenerator.TilePositionsP2[randomIndex];
+            if (randomPositionGO.name == "tile")
+            {
+                keepGoing = false;
+                randomPosition = randomPositionGO.transform.position;
+            }
+        }
 
         return randomPosition;
     }

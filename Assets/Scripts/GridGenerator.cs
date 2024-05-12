@@ -16,11 +16,11 @@ public class GridGenerator : MonoBehaviour
     [SerializeField]
     private GameObject _barrelSpawnerPrefab;
     private GameObject _allTilesParent;
-    private List<Vector3> _tilePositionsP1 = new List<Vector3>();
-    private List<Vector3> _tilePositionsP2 = new List<Vector3>();
+    private List<GameObject> _tilePositionsP1 = new List<GameObject>();
+    private List<GameObject> _tilePositionsP2 = new List<GameObject>();
 
-    public List<Vector3> TilePositionsP1 { get { return _tilePositionsP1; } }
-    public List<Vector3> TilePositionsP2 { get { return _tilePositionsP2; } }
+    public List<GameObject> TilePositionsP1 { get { return _tilePositionsP1; } }
+    public List<GameObject> TilePositionsP2 { get { return _tilePositionsP2; } }
     // Start is called before the first frame update
     void Start()
     {
@@ -71,6 +71,7 @@ public class GridGenerator : MonoBehaviour
                     GameObject tile = Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
                     tile.name = "player1PickupTile";
                     tile.GetComponent<Renderer>().material.color = Color.yellow;
+                    _tilePositionsP1.Add(tile);
                 }
                 else
                 {
@@ -78,6 +79,7 @@ public class GridGenerator : MonoBehaviour
                     GameObject tile = Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
                     tile.name = "player1tile";
                     tile.GetComponent<Renderer>().material.color = Color.green;
+                    _tilePositionsP1.Add(tile);
                 }
             }
         }
@@ -88,7 +90,7 @@ public class GridGenerator : MonoBehaviour
                 Vector3 tilePosition = new Vector3(_floorPosition.x + x, 0, _floorPosition.z + z);
                 GameObject tile=Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
                 tile.name = "tile";
-                _tilePositionsP1.Add(tilePosition);
+                _tilePositionsP1.Add(tile);
 
             }
         }
@@ -99,7 +101,7 @@ public class GridGenerator : MonoBehaviour
                 Vector3 tilePosition = new Vector3(_floorPosition.x + x, 0, _floorPosition.z + z);
                 GameObject tile=Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
                 tile.name = "tile";
-                _tilePositionsP2.Add(tilePosition);
+                _tilePositionsP2.Add(tile);
 
             }
         }
@@ -113,6 +115,7 @@ public class GridGenerator : MonoBehaviour
                     GameObject tile = Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
                     tile.name = "player2PickupTile";
                     tile.GetComponent<Renderer>().material.color = Color.yellow;
+                    _tilePositionsP2.Add(tile);
                 }
                 else
                 {
@@ -120,6 +123,7 @@ public class GridGenerator : MonoBehaviour
                     GameObject tile = Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation, _allTilesParent.transform);
                     tile.name = "player2tile";
                     tile.GetComponent<Renderer>().material.color = Color.red;
+                    _tilePositionsP2.Add(tile);
                 }
             }
         }
