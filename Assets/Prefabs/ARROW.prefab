@@ -95,3 +95,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 1.5
   _rotationSpeed: 0.3
+  _height: 2
