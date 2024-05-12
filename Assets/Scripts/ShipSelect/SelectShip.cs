@@ -19,8 +19,11 @@ public class SelectShip : MonoBehaviour
     public static int Player1Ship, Player2Ship;
     public static bool IsDone = false;
 
+    private Image _p1;
+
     void Start()
     {
+        _p1 = GameObject.Find("player1").GetComponent<Image>();
         Button button = this.gameObject.GetComponent<Button>();
         button.onClick.AddListener(SelectCurrentShip);
     }
@@ -44,6 +47,7 @@ public class SelectShip : MonoBehaviour
             if (count == 0)
             {
                 Player1Ship = CurrentSelectedShip;
+                _p1.enabled = false;
             }
             else if (count == 1)
             {

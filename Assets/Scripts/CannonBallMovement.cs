@@ -49,7 +49,9 @@ public class CannonBallMovement : MonoBehaviour
             Debug.Log(random);
             if (random < _playerDestroyChance)
             {
-                Destroy(other.gameObject);
+                PlayerControl hit = other.gameObject.GetComponent<PlayerControl>();
+                hit.IsKO = true;
+                hit.PlaceX();
             }
             Destroy(gameObject);
         }
