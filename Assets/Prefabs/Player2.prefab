@@ -57,6 +57,10 @@ PrefabInstance:
       value: Player2
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 13898cbf433f3f3469a3c4cdc130dfe8, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 13898cbf433f3f3469a3c4cdc130dfe8, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
@@ -99,6 +103,7 @@ MonoBehaviour:
   IsCarribeanRum: 0
   isBeforeMovement: 1
   _hasBeenUsed: 0
+  IsCarryingTreasure: 0
   _arrowPrefab: {fileID: 2640362114708447084, guid: 75cb65ab50d7a8d4f9e94f8b1507eb86, type: 3}
   _xPrefab: {fileID: 2537583405824346095, guid: 36b239396dfab34459d45628f38cecf0, type: 3}
   _buttonMasherPrefab: {fileID: 8827821691736792638, guid: b14cd035055f8d347b764f582af12ea9, type: 3}
@@ -113,6 +118,9 @@ MonoBehaviour:
   _barrelLayer:
     serializedVersion: 2
     m_Bits: 256
+  _playerLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!65 &6878336561135334647
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -128,9 +136,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.005, y: 0.018547924, z: 0.005}
+  m_Size: {x: 0.005, y: 0.02, z: 0.005}
   m_Center: {x: 0, y: 0.009760314, z: 0}

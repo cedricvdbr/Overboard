@@ -51,6 +51,9 @@ public class PlayerControl : MonoBehaviour
     [SerializeField]
     private LayerMask _barrelLayer;
 
+    [SerializeField]
+    private LayerMask _playerLayer;
+
     void Start()
     {
         _gridGenerator = FindFirstObjectByType<GridGenerator>();
@@ -59,6 +62,7 @@ public class PlayerControl : MonoBehaviour
         _tileLayer = LayerMask.GetMask("Tile");
         _wallLayer = LayerMask.GetMask("Wall");
         _cannonLayer = LayerMask.GetMask("Cannon");
+        _playerLayer = LayerMask.GetMask("Player");
     }
 
     void Update()
@@ -144,7 +148,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.C) && _turnManager.CannonAmountP1 > 0)
             {
-                if (!CheckIfBarrelInFront(transform.position, transform.forward))
+                if (!CheckIfBarrelInFront(transform.position, transform.forward) && !CheckIfPlayerInFront(transform.position, transform.forward))
                 {
                     Vector3 cannonPosition = transform.position + transform.forward;
                     GameObject cannonP1 = Instantiate(_cannonPrefab, cannonPosition, transform.rotation);
@@ -163,7 +167,7 @@ public class PlayerControl : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.C) && _turnManager.CannonAmountP2 > 0)
             {
-                if (!CheckIfBarrelInFront(transform.position, transform.forward))
+                if (!CheckIfBarrelInFront(transform.position, transform.forward) && !CheckIfPlayerInFront(transform.position, transform.forward))
                 {
                     Vector3 cannonPosition = transform.position + transform.forward;
                     GameObject cannonP2 = Instantiate(_cannonPrefab, cannonPosition, transform.rotation);
@@ -189,6 +193,23 @@ public class PlayerControl : MonoBehaviour
         }
 
         Debug.Log("Barrel is not in front of the player");
+
+        return false;
+    }
+
+    private bool CheckIfPlayerInFront(Vector3 origin, Vector3 direction)
+    {
+        float maxDistance = 1.0f;
+
+        RaycastHit hit;
+        if (Physics.Raycast(origin, direction, out hit, maxDistance, _playerLayer))
+        {
+            Debug.Log("Player is in front of the player");
+
+            return true;
+        }
+
+        Debug.Log("Player is not in front of the player");
 
         return false;
     }

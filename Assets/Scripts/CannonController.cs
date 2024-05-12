@@ -12,6 +12,8 @@ public class CannonController : MonoBehaviour
 
     private LayerMask _tileLayer;
 
+    private float _cannonBallYOffset = 0.5f;
+
     public void PlaceCannon()
     {
         _cannonPlaced = true;
@@ -32,7 +34,8 @@ public class CannonController : MonoBehaviour
                 Vector3 direction = targetPosition - transform.position;
                 direction.y = 0f;
 
-                GameObject cannonBall = Instantiate(_cannonBallPrefab, transform.position, Quaternion.identity);
+                Vector3 cannonBallSpawnPosition = new Vector3(transform.position.x, transform.position.y + _cannonBallYOffset, transform.position.z);
+                GameObject cannonBall = Instantiate(_cannonBallPrefab, cannonBallSpawnPosition, Quaternion.identity);
                 CannonBallMovement ballMovement = cannonBall.GetComponent<CannonBallMovement>();
 
                 if (ballMovement != null)

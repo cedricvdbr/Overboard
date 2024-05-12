@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2914616615330730593}
   - component: {fileID: -76970251746947446}
   - component: {fileID: 6349149506610162613}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CannonBall
   m_TagString: CannonBall
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &6349149506610162613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,3 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cannonBallSpeed: 10
   _duration: 5
+  _playerDestroyChance: 0.25

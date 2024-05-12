@@ -38,6 +38,11 @@ public class CannonBallMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
+        }
+
         if (other.CompareTag("Player"))
         {
             float random = Random.value;
