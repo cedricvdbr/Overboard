@@ -304,9 +304,9 @@ public class PlayerControl : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        PlayerControl playerOnTile = TileHasPlayer(clickedPosition);
+                        PlayerControl playerOnTile = TileHasEnemy(clickedPosition);
                         if (playerOnTile != null) AttackPlayer(playerOnTile);
-                        else
+                        else if (!TileHasPirate(clickedPosition))
                         {
                             _targetPosition = new Vector3(clickedPosition.x, transform.position.y, clickedPosition.z);
                             _isMoving = true;
@@ -351,13 +351,22 @@ public class PlayerControl : MonoBehaviour
         return true;
     }
 
-    private PlayerControl TileHasPlayer(Vector3 clickedPosition)
+    private PlayerControl TileHasEnemy(Vector3 clickedPosition)
     {
         foreach (PlayerControl controller in _players)
         {
             if (controller._targetPosition == clickedPosition && controller.PlayerNumber != PlayerNumber) return controller;
         }
         return null;
+    }
+
+    private bool TileHasPirate(Vector3 clickedPosition)
+    {
+        foreach (PlayerControl controller in _players)
+        {
+            if (controller._targetPosition == clickedPosition && controller.PlayerNumber == PlayerNumber) return true;
+        }
+        return false;
     }
 
     private void AttackPlayer(PlayerControl playerOnTile)

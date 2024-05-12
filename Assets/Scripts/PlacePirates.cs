@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlacePirates : MonoBehaviour
 {
@@ -10,9 +12,12 @@ public class PlacePirates : MonoBehaviour
     private int _pirateCounter = 0, _treasureCounter = 0;
     private GameObject _name;
     private ArrayList _pawns = new ArrayList();
+    [SerializeField]
+    private Image _p1pirate, _p2pirate, _p1treasure, _p2treasure;
     // Update is called once per frame
     void Update()
     {
+        UpdateUI();
         if (Input.GetMouseButtonDown(2) && _pirateCounter <6)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -20,23 +25,41 @@ public class PlacePirates : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit)&& hit.collider.CompareTag("Tile"))
             {
-                if (_pirateCounter <=2&&hit.collider.gameObject.name == "player1tile")
+                if (_pawns.Count == 0 && _pirateCounter <= 2 && hit.collider.gameObject.name == "player1tile")
                 {
                     _pirateCounter++;
                     _name = Instantiate(_piratePlayer1, hit.transform.position, Quaternion.AngleAxis(90, Vector3.up));
-                    _name.name = "pirate"+ _pirateCounter;
+                    _name.name = "pirate" + _pirateCounter;
                     PlayerControl controller = _name.GetComponent<PlayerControl>();
                     controller.PlayerNumber = 1;
                     _pawns.Add(controller);
                 }
-                if (_pirateCounter >2&&hit.collider.gameObject.name == "player2tile")
+                else
                 {
-                    _pirateCounter++;
-                    _name = Instantiate(_piratePlayer2, hit.transform.position, Quaternion.AngleAxis(-90, Vector3.up));
-                    _name.name = "pirate" + _pirateCounter;
-                    PlayerControl controller = _name.GetComponent<PlayerControl>();
-                    controller.PlayerNumber = 2;
-                    _pawns.Add(controller);
+                     bool overlap = false;
+                    for (int i = 0; i < _pawns.Count; i++)
+                    {
+                        if (hit.transform.position == ((PlayerControl)_pawns[i]).transform.position) overlap = true;
+                    }
+                    if (_pirateCounter <= 2 && hit.collider.gameObject.name == "player1tile" &&!overlap)
+                    {
+                            _pirateCounter++;
+                            _name = Instantiate(_piratePlayer1, hit.transform.position, Quaternion.AngleAxis(90, Vector3.up));
+                            _name.name = "pirate" + _pirateCounter;
+                            PlayerControl controller = _name.GetComponent<PlayerControl>();
+                            controller.PlayerNumber = 1;
+                            _pawns.Add(controller);
+                    }
+                    if (_pirateCounter > 2 && hit.collider.gameObject.name == "player2tile"&& !overlap)
+                    {
+                            _pirateCounter++;
+                            _name = Instantiate(_piratePlayer2, hit.transform.position, Quaternion.AngleAxis(-90, Vector3.up));
+                            _name.name = "pirate" + _pirateCounter;
+                            PlayerControl controller = _name.GetComponent<PlayerControl>();
+                            controller.PlayerNumber = 2;
+                            _pawns.Add(controller);
+                    }
+                    
                 }
             }
         }
@@ -71,5 +94,45 @@ public class PlacePirates : MonoBehaviour
             _pirateCounter = 7;
             _treasureCounter = 7;
         }
+    }
+
+    private void UpdateUI()
+    {
+        if(_pirateCounter <= 2)
+        {
+            _p1pirate.enabled = true;
+            _p2pirate.enabled = false;
+            _p1treasure.enabled = false;
+            _p2treasure.enabled = false;
+        }
+        if (_pirateCounter > 2)
+        {
+            _p1pirate.enabled = false;
+            _p2pirate.enabled = true;
+            _p1treasure.enabled = false;
+            _p2treasure.enabled = false;
+        }
+        if (_treasureCounter <= 2 && _pirateCounter == 6)
+        {
+            _p1pirate.enabled = false;
+            _p2pirate.enabled = false;
+            _p1treasure.enabled = true;
+            _p2treasure.enabled = false;
+        }
+        if (_treasureCounter > 2 && _pirateCounter == 6)
+        {
+            _p1pirate.enabled = false;
+            _p2pirate.enabled = false;
+            _p1treasure.enabled = false;
+            _p2treasure.enabled = true;
+        }
+        if( _treasureCounter >6 && _pirateCounter > 6)
+        {
+            _p1pirate.enabled = false;
+            _p2pirate.enabled = false;
+            _p1treasure.enabled = false;
+            _p2treasure.enabled = false;
+        }
+
     }
 }
