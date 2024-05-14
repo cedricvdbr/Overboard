@@ -149,8 +149,6 @@ public class PlayerControl : MonoBehaviour
             }
             else if (_isPlayerTurn && !IsKO)
             {
-                //if (_currentAbilityIndex == -1) Debug.Log("currently no ability");
-                //else Debug.Log("current ability: " + _abilityNames[_currentAbilityIndex]);
                 HandleBridge();
                 HandleCannonPlacementP1();
                 HandleCannonPlacementP2();
@@ -178,6 +176,13 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }
+
+    public string GetCurrentAbilityName()
+    {
+        if (_currentAbilityIndex == -1) return "none";
+        return _abilityNames[_currentAbilityIndex];
+    }
+
     public void PlaceX()
     {
         if (_xInstance == null && _xPrefab != null)
