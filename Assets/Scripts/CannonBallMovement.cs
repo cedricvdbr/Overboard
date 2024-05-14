@@ -9,7 +9,7 @@ public class CannonBallMovement : MonoBehaviour
     [SerializeField]
     private float _duration = 5f;
     [SerializeField]
-    private float _playerDestroyChance = 0.25f;
+    public static float _playerDestroyChance = 0.25f;
 
     private Vector3 _initialDirection;
 
@@ -22,7 +22,8 @@ public class CannonBallMovement : MonoBehaviour
     void Update()
     {
         transform.Translate(_initialDirection * _cannonBallSpeed * Time.deltaTime);
-        Debug.Log(transform.position.y);
+        //Debug.Log(transform.position.y);
+        Debug.Log("destroychance " + _playerDestroyChance);
     }
 
     public void SetInitialDirection(Vector3 direction)
@@ -38,6 +39,7 @@ public class CannonBallMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        CannonBallMovement._playerDestroyChance = 0.25f;
         if (other.CompareTag("Wall"))
         {
             Destroy(gameObject);

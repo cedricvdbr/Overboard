@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
 
 
 public class PlayerControl : MonoBehaviour
@@ -27,11 +24,12 @@ public class PlayerControl : MonoBehaviour
     private string[] _abilityNames = new string[] { "Harpoon Gun", "Caribbean Rum", "Cursed Compass", "Parrot's Warning", "Broken Cannon Ball", "Curse Of The Flying Dutchman" };
     private bool[] _availableAbilities = new bool[] { false, false, false, false, false, false };
     private bool[] _abilities = new bool[] { false, false, false, false, false, false };
+    private bool _brokenCannon = false, _canGoThroughWall = false;
     private bool _cantBeKOd = false;
     private int _cantBeKOdCounter = 0;
     private int _currentAbilityIndex = -1;
     [SerializeField]
-    private bool isBeforeMovement = true, _hasBeenUsed = false;
+    private bool isBeforeMovement = true;
 
     public bool IsCarryingTreasure = false;
 
@@ -138,7 +136,7 @@ public class PlayerControl : MonoBehaviour
                 if (chooseANewOne)
                 {
                     //int chosenAbility = UnityEngine.Random.Range(0, _abilities.Length);
-                    int chosenAbility = UnityEngine.Random.Range(1, 4);
+                    int chosenAbility = UnityEngine.Random.Range(1, 6);
                     _availableAbilities[chosenAbility] = true;
                     _currentAbilityIndex = chosenAbility;
                 }
@@ -151,13 +149,6 @@ public class PlayerControl : MonoBehaviour
             }
             else if (_isPlayerTurn && !IsKO)
             {
-                if (_currentAbilityIndex == -1) Debug.Log("currently no ability");
-                else Debug.Log("current ability: " + _abilityNames[_currentAbilityIndex]);
-                if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement && _isPlayerTurn && !_hasBeenUsed)
-                {
-                    _abilities[1] = true;
-                    _hasBeenUsed = true;
-                }
                 HandleBridge();
                 HandleCannonPlacementP1();
                 HandleCannonPlacementP2();
@@ -167,7 +158,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 HandleAbilities();
                 HandleInput();
-                if(Input.GetKeyDown(KeyCode.S))
+                if(Input.GetKeyDown(KeyCode.Equals))
                 {
                     _remainingMovementSteps = 1000;
                     _bridgeAmount = 50;
@@ -185,6 +176,13 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }
+
+    public string GetCurrentAbilityName()
+    {
+        if (_currentAbilityIndex == -1) return "none";
+        return _abilityNames[_currentAbilityIndex];
+    }
+
     public void PlaceX()
     {
         if (_xInstance == null && _xPrefab != null)
@@ -279,6 +277,12 @@ public class PlayerControl : MonoBehaviour
 
             if (piratePosition == tileBehindCannon)
             {
+                if (_brokenCannon)
+                {
+                    CannonBallMovement._playerDestroyChance = 0.5f;
+                    _brokenCannon = false;
+                    Debug.Log("brokencannon has been used");
+                }
                 cannon.GetComponent<CannonController>().Shoot();
                 _turnManager.EndTurn();
             }
@@ -345,7 +349,7 @@ public class PlayerControl : MonoBehaviour
                 Vector3 clickedPosition = hit.transform.position;
                 Vector3 difference = clickedPosition - transform.position;
 
-                if (!CheckWallCollision(clickedPosition))
+                if (!CheckWallCollision(clickedPosition) && !_canGoThroughWall)
                     return;
 
                 if (!CheckCannonCollision(clickedPosition))
@@ -434,6 +438,8 @@ public class PlayerControl : MonoBehaviour
 
     private void HandleAbilities()
     {
+        if (!isBeforeMovement) return;
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             for (int i = 0; i < _availableAbilities.Length; i++)
@@ -487,12 +493,16 @@ public class PlayerControl : MonoBehaviour
         {
             // broken cannon ball
 
+            _brokenCannon = true;
+
             _availableAbilities[4] = false;
             _currentAbilityIndex = -1;
         }
         if (AbilityIsOn(ref _abilities[5], true))
         {
             // curse of the flying dutchman
+
+            _canGoThroughWall = true;
 
             _availableAbilities[5] = false;
             _currentAbilityIndex = -1;
@@ -504,7 +514,9 @@ public class PlayerControl : MonoBehaviour
     {
         Vector3 currentLocation = transform.position;
         transform.position = hitPlayer.transform.position;
+        _targetPosition = hitPlayer.transform.position;
         hitPlayer.transform.position = currentLocation;
+        hitPlayer._targetPosition = currentLocation;
     }
 
     public int GetTilePlayerNumber()
@@ -592,8 +604,8 @@ public class PlayerControl : MonoBehaviour
     {
         _cantBeKOdCounter++;
         _remainingMovementSteps = 4;
+        _canGoThroughWall = false;
         _isPlayerTurn = false;
-        _hasBeenUsed = false;
         if(_arrowInstance != null)
         {
             Destroy(_arrowInstance);
