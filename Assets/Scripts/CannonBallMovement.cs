@@ -39,6 +39,7 @@ public class CannonBallMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        CannonBallMovement._playerDestroyChance = 0.25f;
         if (other.CompareTag("Wall"))
         {
             Destroy(gameObject);
@@ -53,7 +54,6 @@ public class CannonBallMovement : MonoBehaviour
                 PlayerControl hit = other.gameObject.GetComponent<PlayerControl>();
                 hit.IsKO = true;
                 hit.PlaceX();
-                _playerDestroyChance = 0.25f;
             }
             Destroy(gameObject);
         }
