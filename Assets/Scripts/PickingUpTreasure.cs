@@ -11,6 +11,7 @@ public class PickingUpTreasure : MonoBehaviour
     private bool isTouchingPlayer = false, IsFollowingPlayer = false;
     private GameObject _playerGO;
     private PlayerControl _playerPC;
+    private PlayerControl _currentFollowingPlayer;
     private GameObject _pickupTilePlayer1, _pickupTilePlayer2;
     private TurnManager _turnManager;
 
@@ -53,6 +54,7 @@ public class PickingUpTreasure : MonoBehaviour
 
     private void RemoveTreasure()
     {
+        _currentFollowingPlayer.IsCarryingTreasure = false;
         this.gameObject.SetActive(false);
         this.enabled = false;
     }
@@ -70,9 +72,11 @@ public class PickingUpTreasure : MonoBehaviour
                 if ((_playerPC.PlayerNumber == 1 && name == "player1treasure") || (_playerPC.PlayerNumber == 2 && name == "player2treasure")) return;
                 if (_playerPC.IsCarryingTreasure) return;
 
+                _currentFollowingPlayer = _playerPC;
+
                 isTouchingPlayer = true;
                 IsFollowingPlayer = true;
-                _playerPC.IsCarryingTreasure = true;
+                _currentFollowingPlayer.IsCarryingTreasure = true;
             }
         }
 

@@ -153,11 +153,6 @@ public class PlayerControl : MonoBehaviour
             {
                 if (_currentAbilityIndex == -1) Debug.Log("currently no ability");
                 else Debug.Log("current ability: " + _abilityNames[_currentAbilityIndex]);
-                if (Input.GetKeyDown(KeyCode.A) && isBeforeMovement && _isPlayerTurn && !_hasBeenUsed)
-                {
-                    _abilities[1] = true;
-                    _hasBeenUsed = true;
-                }
                 HandleBridge();
                 HandleCannonPlacementP1();
                 HandleCannonPlacementP2();
@@ -167,7 +162,7 @@ public class PlayerControl : MonoBehaviour
                 }
                 HandleAbilities();
                 HandleInput();
-                if(Input.GetKeyDown(KeyCode.S))
+                if(Input.GetKeyDown(KeyCode.Equals))
                 {
                     _remainingMovementSteps = 1000;
                     _bridgeAmount = 50;
@@ -434,6 +429,8 @@ public class PlayerControl : MonoBehaviour
 
     private void HandleAbilities()
     {
+        if (!isBeforeMovement) return;
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             for (int i = 0; i < _availableAbilities.Length; i++)
@@ -504,7 +501,9 @@ public class PlayerControl : MonoBehaviour
     {
         Vector3 currentLocation = transform.position;
         transform.position = hitPlayer.transform.position;
+        _targetPosition = hitPlayer.transform.position;
         hitPlayer.transform.position = currentLocation;
+        hitPlayer._targetPosition = currentLocation;
     }
 
     public int GetTilePlayerNumber()
