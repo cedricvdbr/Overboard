@@ -21,9 +21,9 @@ public class PlayerControl : MonoBehaviour
 
     //private List<bool> _abilities = new List<bool>();
     //private bool _isCarribeanRum;
-    private string[] _abilityNames = new string[] { "Harpoon Gun", "Caribbean Rum", "Cursed Compass", "Parrot's Warning", "Broken Cannon Ball", "Curse Of The Flying Dutchman" };
-    private bool[] _availableAbilities = new bool[] { false, false, false, false, false, false };
-    private bool[] _abilities = new bool[] { false, false, false, false, false, false };
+    private string[] _abilityNames = new string[] { "Harpoon Gun", "Caribbean Rum", "Cursed Compass", "Parrot's Warning", "Broken Cannon Ball", "Curse Of The Flying Dutchman", "Fortify", "Davy Jones Locker" };
+    private bool[] _availableAbilities = new bool[] { false, false, false, false, false, false, false, false };
+    private bool[] _abilities = new bool[] { false, false, false, false, false, false, false, false };
     private bool _brokenCannon = false, _canGoThroughWall = false;
     private bool _cantBeKOd = false;
     private int _cantBeKOdCounter = 0;
@@ -64,6 +64,9 @@ public class PlayerControl : MonoBehaviour
     private GameObject _gridgenGO;
     private GridGenerator _gridgen;
     private List<GameObject> _player1Tiles, _player2Tiles;
+
+    [SerializeField]
+    private GameObject _wallPrefab;
 
     void Start()
     {
@@ -136,7 +139,7 @@ public class PlayerControl : MonoBehaviour
                 if (chooseANewOne)
                 {
                     //int chosenAbility = UnityEngine.Random.Range(0, _abilities.Length);
-                    int chosenAbility = UnityEngine.Random.Range(1, 6);
+                    int chosenAbility = UnityEngine.Random.Range(1, 7);
                     _availableAbilities[chosenAbility] = true;
                     _currentAbilityIndex = chosenAbility;
                 }
@@ -458,6 +461,7 @@ public class PlayerControl : MonoBehaviour
         if (AbilityIsOn(ref _abilities[1], true))    
         {
             // caribbean rum
+
             _remainingMovementSteps += 2;
 
             _availableAbilities[1] = false;
@@ -466,6 +470,7 @@ public class PlayerControl : MonoBehaviour
         if (AbilityIsOn(ref _abilities[2], false))
         {
             // cursed compass
+
             if (Input.GetMouseButtonDown(0)) HandlePlayerCLick();
             if (_playerHasBeenSelected)
             {
@@ -483,6 +488,7 @@ public class PlayerControl : MonoBehaviour
         if (AbilityIsOn(ref _abilities[3], true))
         {
             // parrot's warning
+
             _cantBeKOd = true;
             _cantBeKOdCounter = 0;
 
@@ -507,6 +513,27 @@ public class PlayerControl : MonoBehaviour
             _availableAbilities[5] = false;
             _currentAbilityIndex = -1;
         }
+        if (AbilityIsOn(ref _abilities[6], true))
+        {
+            // Fortify
+            Vector3 forwardNormalized = transform.forward.normalized / 2;
+            Vector3 position = new Vector3(transform.position.x + forwardNormalized.x, 0.5f, transform.position.z + forwardNormalized.z);
+            GameObject wall = Instantiate(_wallPrefab, position, Quaternion.identity);
+
+            _availableAbilities[5] = false;
+            _currentAbilityIndex = -1;
+        }
+        if (AbilityIsOn(ref _abilities[7], true))
+        {
+            // Davy Jones Locker
+
+
+
+            _availableAbilities[5] = false;
+            _currentAbilityIndex = -1;
+        }
+
+
         isBeforeMovement = false;
     }
 

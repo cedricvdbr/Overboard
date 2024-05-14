@@ -100,9 +100,7 @@ MonoBehaviour:
   _isMashing: 0
   IsKO: 0
   PlayerNumber: 0
-  IsCarribeanRum: 0
   isBeforeMovement: 1
-  _hasBeenUsed: 0
   IsCarryingTreasure: 0
   _arrowPrefab: {fileID: 2640362114708447084, guid: 75cb65ab50d7a8d4f9e94f8b1507eb86, type: 3}
   _xPrefab: {fileID: 2537583405824346095, guid: 36b239396dfab34459d45628f38cecf0, type: 3}
@@ -121,6 +119,7 @@ MonoBehaviour:
   _playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  _wallPrefab: {fileID: 207312813840117935, guid: 2c2cbd0c2ccc60a45a4504875b0c0c4a, type: 3}
 --- !u!65 &6079348133714639311
 BoxCollider:
   m_ObjectHideFlags: 0
