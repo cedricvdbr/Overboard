@@ -24,7 +24,7 @@ public class PlayerControl : MonoBehaviour
     private string[] _abilityNames = new string[] { "Harpoon Gun", "Caribbean Rum", "Cursed Compass", "Parrot's Warning", "Broken Cannon Ball", "Curse Of The Flying Dutchman" };
     private bool[] _availableAbilities = new bool[] { false, false, false, false, false, false };
     private bool[] _abilities = new bool[] { false, false, false, false, false, false };
-    private bool _brokenCannon = false;
+    private bool _brokenCannon = false, _canGoThroughWall = false;
     private bool _cantBeKOd = false;
     private int _cantBeKOdCounter = 0;
     private int _currentAbilityIndex = -1;
@@ -136,7 +136,7 @@ public class PlayerControl : MonoBehaviour
                 if (chooseANewOne)
                 {
                     //int chosenAbility = UnityEngine.Random.Range(0, _abilities.Length);
-                    int chosenAbility = UnityEngine.Random.Range(4, 5);
+                    int chosenAbility = UnityEngine.Random.Range(1, 6);
                     _availableAbilities[chosenAbility] = true;
                     _currentAbilityIndex = chosenAbility;
                 }
@@ -349,7 +349,7 @@ public class PlayerControl : MonoBehaviour
                 Vector3 clickedPosition = hit.transform.position;
                 Vector3 difference = clickedPosition - transform.position;
 
-                if (!CheckWallCollision(clickedPosition))
+                if (!CheckWallCollision(clickedPosition) && !_canGoThroughWall)
                     return;
 
                 if (!CheckCannonCollision(clickedPosition))
@@ -502,7 +502,7 @@ public class PlayerControl : MonoBehaviour
         {
             // curse of the flying dutchman
 
-
+            _canGoThroughWall = true;
 
             _availableAbilities[5] = false;
             _currentAbilityIndex = -1;
@@ -604,6 +604,7 @@ public class PlayerControl : MonoBehaviour
     {
         _cantBeKOdCounter++;
         _remainingMovementSteps = 4;
+        _canGoThroughWall = false;
         _isPlayerTurn = false;
         if(_arrowInstance != null)
         {
