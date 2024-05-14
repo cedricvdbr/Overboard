@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
 
 
 public class PlayerControl : MonoBehaviour
@@ -27,11 +24,12 @@ public class PlayerControl : MonoBehaviour
     private string[] _abilityNames = new string[] { "Harpoon Gun", "Caribbean Rum", "Cursed Compass", "Parrot's Warning", "Broken Cannon Ball", "Curse Of The Flying Dutchman" };
     private bool[] _availableAbilities = new bool[] { false, false, false, false, false, false };
     private bool[] _abilities = new bool[] { false, false, false, false, false, false };
+    private bool _brokenCannon = false;
     private bool _cantBeKOd = false;
     private int _cantBeKOdCounter = 0;
     private int _currentAbilityIndex = -1;
     [SerializeField]
-    private bool isBeforeMovement = true, _hasBeenUsed = false;
+    private bool isBeforeMovement = true;
 
     public bool IsCarryingTreasure = false;
 
@@ -138,7 +136,7 @@ public class PlayerControl : MonoBehaviour
                 if (chooseANewOne)
                 {
                     //int chosenAbility = UnityEngine.Random.Range(0, _abilities.Length);
-                    int chosenAbility = UnityEngine.Random.Range(1, 4);
+                    int chosenAbility = UnityEngine.Random.Range(4, 5);
                     _availableAbilities[chosenAbility] = true;
                     _currentAbilityIndex = chosenAbility;
                 }
@@ -151,8 +149,8 @@ public class PlayerControl : MonoBehaviour
             }
             else if (_isPlayerTurn && !IsKO)
             {
-                if (_currentAbilityIndex == -1) Debug.Log("currently no ability");
-                else Debug.Log("current ability: " + _abilityNames[_currentAbilityIndex]);
+                //if (_currentAbilityIndex == -1) Debug.Log("currently no ability");
+                //else Debug.Log("current ability: " + _abilityNames[_currentAbilityIndex]);
                 HandleBridge();
                 HandleCannonPlacementP1();
                 HandleCannonPlacementP2();
@@ -274,6 +272,12 @@ public class PlayerControl : MonoBehaviour
 
             if (piratePosition == tileBehindCannon)
             {
+                if (_brokenCannon)
+                {
+                    CannonBallMovement._playerDestroyChance = 0.5f;
+                    _brokenCannon = false;
+                    Debug.Log("brokencannon has been used");
+                }
                 cannon.GetComponent<CannonController>().Shoot();
                 _turnManager.EndTurn();
             }
@@ -484,12 +488,16 @@ public class PlayerControl : MonoBehaviour
         {
             // broken cannon ball
 
+            _brokenCannon = true;
+
             _availableAbilities[4] = false;
             _currentAbilityIndex = -1;
         }
         if (AbilityIsOn(ref _abilities[5], true))
         {
             // curse of the flying dutchman
+
+
 
             _availableAbilities[5] = false;
             _currentAbilityIndex = -1;
@@ -592,7 +600,6 @@ public class PlayerControl : MonoBehaviour
         _cantBeKOdCounter++;
         _remainingMovementSteps = 4;
         _isPlayerTurn = false;
-        _hasBeenUsed = false;
         if(_arrowInstance != null)
         {
             Destroy(_arrowInstance);
