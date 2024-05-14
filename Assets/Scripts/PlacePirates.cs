@@ -18,7 +18,7 @@ public class PlacePirates : MonoBehaviour
     void Update()
     {
         UpdateUI();
-        if (Input.GetMouseButtonDown(2) && _pirateCounter <6)
+        if (Input.GetMouseButtonDown(0) && _pirateCounter <6)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -63,7 +63,7 @@ public class PlacePirates : MonoBehaviour
                 }
             }
         }
-        if(Input.GetMouseButtonDown(2) && _treasureCounter <6 && _pirateCounter==6)
+        if(Input.GetMouseButtonDown(0) && _treasureCounter <6 && _pirateCounter==6)
         {
             Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
             RaycastHit hit;
