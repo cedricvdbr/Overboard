@@ -8,7 +8,7 @@ public class TurnManager : MonoBehaviour
     public PlayerControl player1Pawn1, player1Pawn2, player1Pawn3;
     public PlayerControl player2Pawn1, player2Pawn2, player2Pawn3;
 
-    private PlayerControl currentPlayer;
+    public PlayerControl currentPlayer;
 
     private int _player1TreasuresLeft = 3, _player2TreasuresLeft = 3;
     private bool _isGameOver = false;
