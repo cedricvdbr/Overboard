@@ -950,7 +950,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v0.1 (alpha) by ahoy games
+  m_text: v0.2 (alpha) by ahoy games
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c792aac40f8d7e642b2f1b0af0b1b24e, type: 2}
   m_sharedMaterial: {fileID: -5026560234088640090, guid: c792aac40f8d7e642b2f1b0af0b1b24e, type: 2}
