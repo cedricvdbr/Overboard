@@ -182,7 +182,7 @@ public class PlayerControl : MonoBehaviour
 
     public string GetCurrentAbilityName()
     {
-        if (_currentAbilityIndex == -1) return "none";
+        if (_currentAbilityIndex == -1) return "None";
         return _abilityNames[_currentAbilityIndex];
     }
 
