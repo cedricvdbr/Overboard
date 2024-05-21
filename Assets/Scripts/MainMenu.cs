@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField]
-    private Image _close, _tutorialPage1, _tutorialPage2, _left, _right;
+    private Image _close, _tutorialPage1, _tutorialPage2, _abilityPage, _left, _right;
     private bool _tutorialEnabled;
     [SerializeField]
     private int _index = 1;
@@ -29,10 +29,17 @@ public class MainMenu : MonoBehaviour
                 case 1:
                     _tutorialPage1.enabled = true;
                     _tutorialPage2.enabled = false;
+                    _abilityPage.enabled = false;
                     break;
                 case 2:
                     _tutorialPage1.enabled = false;
                     _tutorialPage2.enabled = true;
+                    _abilityPage.enabled = false;
+                    break;
+                case 3:
+                    _tutorialPage1.enabled = false;
+                    _tutorialPage2.enabled= false;
+                    _abilityPage.enabled = true;
                     break;
             }
         }
@@ -40,6 +47,7 @@ public class MainMenu : MonoBehaviour
         {
             _tutorialPage1.enabled = false;
             _tutorialPage2.enabled = false;
+            _abilityPage.enabled = false;
         }
 
     }
@@ -49,12 +57,20 @@ public class MainMenu : MonoBehaviour
     }
     public void IncreaseIndex()
     {
-        _index = Mathf.Clamp(_index+1, 1, 2);
+        _index = Mathf.Clamp(_index+1, 1, 3);
     }
     public void DecreaseIndex()
     {
-        _index = Mathf.Clamp(_index-1, 1, 2);
+        _index = Mathf.Clamp(_index-1, 1, 3);
 
+    }
+    public void OpenAbility()
+    {
+        _tutorialEnabled = true;
+        _close.enabled = true;
+        _index = 3;
+        _left.enabled = true;
+        _right.enabled = true;
     }
     public void CloseHelp()
     {
