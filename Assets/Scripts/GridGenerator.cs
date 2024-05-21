@@ -21,6 +21,9 @@ public class GridGenerator : MonoBehaviour
 
     public List<GameObject> TilePositionsP1 { get { return _tilePositionsP1; } }
     public List<GameObject> TilePositionsP2 { get { return _tilePositionsP2; } }
+
+    private List<GameObject> _bridgeTiles = new List<GameObject>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,27 +39,27 @@ public class GridGenerator : MonoBehaviour
     {
 
     }
-    public void GenerateBridge(Vector3 position, string name)
+    public bool GenerateBridge(Vector3 position, string name, int direction)
     {
-        int direction = 0;
-        if (String.Compare(name, "pirate1") == 0 ||
-            String.Compare(name, "pirate2") == 0 ||
-            String.Compare(name, "pirate3") == 0) direction = 1;
-        if (String.Compare(name, "pirate4") == 0 ||
-            String.Compare(name, "pirate5") == 0 ||
-            String.Compare(name, "pirate6") == 0) direction = -1;
-
+        bool stopPlacingBridge = false;
         for (int x = 1; x < FloorWidth / 3+1; x++)
         {
             for (int z = 0; z < 1; z++)
             {
                 Vector3 tilePosition = new Vector3(position.x +x*direction, 0, position.z + z);
+                foreach (GameObject bridgeTile in _bridgeTiles)
+                {
+                    if (tilePosition == bridgeTile.transform.position) stopPlacingBridge = true;
+                }
+                if (stopPlacingBridge) break;
                 GameObject tile = Instantiate(_tilePrefab, tilePosition, _tilePrefab.transform.rotation);
                 tile.name = "bridge";
                 tile.GetComponent<Renderer>().material.color = Color.magenta;
-
+                _bridgeTiles.Add(tile);
             }
+            if (stopPlacingBridge) break;
         }
+        return stopPlacingBridge;
     }
     private void GenerateFloor()
     {

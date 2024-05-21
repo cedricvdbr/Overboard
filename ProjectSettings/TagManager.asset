@@ -6,10 +6,11 @@ TagManager:
   tags:
   - Tile
   - UI_ShipName
-  - Barrel
   - Treasure
   - CannonBall
   - Wall
+  - BarrelP1
+  - BarrelP2
   layers:
   - Default
   - TransparentFX

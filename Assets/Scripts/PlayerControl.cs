@@ -21,6 +21,7 @@ public class PlayerControl : MonoBehaviour
 
     //private List<bool> _abilities = new List<bool>();
     //private bool _isCarribeanRum;
+    private int[] values = new int[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7, 7 };
     private string[] _abilityNames = new string[] { "Harpoon Gun", "Caribbean Rum", "Cursed Compass", "Parrot's Warning", "Broken Cannon Ball", "Curse Of The Flying Dutchman", "Fortify", "Davy Jones Locker" };
     private bool[] _availableAbilities = new bool[] { false, false, false, false, false, false, false, false };
     private bool[] _abilities = new bool[] { false, false, false, false, false, false, false, false };
@@ -139,7 +140,8 @@ public class PlayerControl : MonoBehaviour
                 if (chooseANewOne)
                 {
                     //int chosenAbility = UnityEngine.Random.Range(0, _abilities.Length);
-                    int chosenAbility = UnityEngine.Random.Range(1, 7);
+                    int randomIndex = UnityEngine.Random.Range(0, values.Length);
+                    int chosenAbility = values[randomIndex];
                     _availableAbilities[chosenAbility] = true;
                     _currentAbilityIndex = chosenAbility;
                 }
@@ -316,28 +318,38 @@ public class PlayerControl : MonoBehaviour
 
     private void HandleBridge()
     {
-        if (IsPlayer1OnEdge() || IsPlayer2OnEdge())
+        int result = IsPlayerOnEdge();
+        if (result == 1 || result == -1)
         {
             if (Input.GetKeyDown(KeyCode.B) && _bridgeAmount > 0)
             {
-                _gridGenerator.GenerateBridge(gameObject.transform.position, gameObject.name);
-                _bridgeAmount--;
+                bool isntPlaced = _gridGenerator.GenerateBridge(gameObject.transform.position, gameObject.name, result);
+                if (!isntPlaced) _bridgeAmount--;
             }
         }
     }
 
-    private bool IsPlayer2OnEdge()
+    private int IsPlayerOnEdge()
     {
-        return name == "pirate4" && transform.position.x == 3
-            || name == "pirate5" && transform.position.x == 3
-            || name == "pirate6" && transform.position.x == 3;
-    }
+        if (name == "pirate1" && transform.position.x == -4
+            || name == "pirate2" && transform.position.x == -4
+            || name == "pirate3" && transform.position.x == -4)
+            return 1;
+        if (name == "pirate1" && transform.position.x == 3
+            || name == "pirate2" && transform.position.x == 3
+            || name == "pirate3" && transform.position.x == 3)
+            return -1;
 
-    private bool IsPlayer1OnEdge()
-    {
-        return name == "pirate1" && transform.position.x == -4 
-            || name == "pirate2" && transform.position.x == -4 
-            || name == "pirate3" && transform.position.x == -4;
+        if (name == "pirate4" && transform.position.x == 3
+            || name == "pirate5" && transform.position.x == 3
+            || name == "pirate6" && transform.position.x == 3)
+            return -1;
+        if (name == "pirate4" && transform.position.x == -4
+            || name == "pirate5" && transform.position.x == -4
+            || name == "pirate6" && transform.position.x == -4)
+            return 1;
+
+        return 0;
     }
 
     private void HandleInput()
@@ -441,7 +453,7 @@ public class PlayerControl : MonoBehaviour
 
     private void HandleAbilities()
     {
-        if (!isBeforeMovement) return;
+        if (!isBeforeMovement && !_availableAbilities[6]) return;
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -520,17 +532,28 @@ public class PlayerControl : MonoBehaviour
             Vector3 position = new Vector3(transform.position.x + forwardNormalized.x, 0.5f, transform.position.z + forwardNormalized.z);
             GameObject wall = Instantiate(_wallPrefab, position, Quaternion.identity);
 
-            _availableAbilities[5] = false;
+            _availableAbilities[6] = false;
             _currentAbilityIndex = -1;
         }
-        if (AbilityIsOn(ref _abilities[7], true))
+        if (AbilityIsOn(ref _abilities[7], false))
         {
             // Davy Jones Locker
 
+            if (Input.GetMouseButtonDown(0)) HandlePlayerCLick();
+            if (_playerHasBeenSelected)
+            {
+                if (_hitPlayer.IsKO)
+                {
+                    _hitPlayer.IsKO = false;
+                    Destroy(_hitPlayer._xInstance);
+                    _hitPlayer._xInstance = null;
+                }
 
-
-            _availableAbilities[5] = false;
-            _currentAbilityIndex = -1;
+                _abilities[7] = false;
+                _availableAbilities[7] = false;
+                _playerHasBeenSelected = false;
+                _currentAbilityIndex = -1;
+            }
         }
 
 
@@ -658,7 +681,7 @@ public class PlayerControl : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Barrel"))
+        if (other.CompareTag("BarrelP1") || other.CompareTag("BarrelP2"))
         {
             Destroy(other.gameObject);
             _isRandomAbility = true;

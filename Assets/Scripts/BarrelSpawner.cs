@@ -15,12 +15,35 @@ public class BarrelSpawner : MonoBehaviour
 
     private GameObject _allBarrelsParent;
 
+    private TurnManager _turnManager;
+
     void Start()
     {
         _gridGenerator = GameObject.Find("GridGenerator").GetComponent<GridGenerator>();
         _allBarrelsParent = new GameObject("Barrels");
         SpawnBarrelsP1();
         SpawnBarrelsP2();
+    }
+
+    private void Update()
+    {
+        _turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
+        if (_turnManager.CurrentTurn >= 4 * 6)
+        {
+            _turnManager.CurrentTurn = 0;
+            SpawnNewBarrels();
+        }
+    }
+
+    private void SpawnNewBarrels()
+    {
+        GameObject[] barrelsP1 = GameObject.FindGameObjectsWithTag("BarrelP1");
+        GameObject[] barrelsP2 = GameObject.FindGameObjectsWithTag("BarrelP2");
+        if (barrelsP1.Length < 3 && barrelsP2.Length < 3)
+        {
+            SpawnBarrelsP1();
+            SpawnBarrelsP2();
+        }
     }
 
     private void SpawnBarrelsP1()
@@ -32,6 +55,7 @@ public class BarrelSpawner : MonoBehaviour
             GameObject barrel = Instantiate(_barrelPrefab, randomPosition, _barrelPrefab.transform.rotation, _allBarrelsParent.transform);
 
             barrel.name = "BarrelP1";
+            barrel.tag = "BarrelP1";
         }
     }
 
@@ -44,6 +68,7 @@ public class BarrelSpawner : MonoBehaviour
             GameObject barrel = Instantiate(_barrelPrefab, randomPosition, _barrelPrefab.transform.rotation, _allBarrelsParent.transform);
 
             barrel.name = "BarrelP2";
+            barrel.tag = "BarrelP2";
         }
     }
 

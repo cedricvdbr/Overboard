@@ -9,6 +9,7 @@ public class TurnManager : MonoBehaviour
     public PlayerControl player2Pawn1, player2Pawn2, player2Pawn3;
 
     public PlayerControl currentPlayer;
+    public int CurrentTurn = 0;
 
     private int _player1TreasuresLeft = 3, _player2TreasuresLeft = 3;
     private bool _isGameOver = false;
@@ -88,6 +89,7 @@ public class TurnManager : MonoBehaviour
     {
         if (!_isGameOver)
         {
+            CurrentTurn++;
             currentPlayer.StartPlayerTurn();
         }
     }

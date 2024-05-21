@@ -82,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
       propertyPath: m_TagString
-      value: Barrel
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f9629d958f3370e49b9dc8f2b6a8ee56, type: 3}
       propertyPath: m_StaticEditorFlags
