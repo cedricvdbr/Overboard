@@ -3544,8 +3544,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4801f3ad33bdce1448611b24d1c3cabc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _piratePlayer1: {fileID: 8193270415303482614, guid: fe8347ad101a3de488c3a8a2dbb91f67, type: 3}
-  _piratePlayer2: {fileID: 7969604613368484212, guid: 517b21215baef07468b6bf72787f6b83, type: 3}
+  _piratePlayer1: {fileID: 6354535531511950809, guid: facc08816b923ba40b2676bee418935b, type: 3}
+  _piratePlayer2: {fileID: 7982049472224961124, guid: c1db8fb084547834293ef1848680fb12, type: 3}
   _turnManager: {fileID: 3737450022400416804, guid: 97463ac3738519a4bab571bce1db6f3b, type: 3}
   _treasureP1: {fileID: 4095707780020296627, guid: 63caeb13de099b14393fa0fb6d8b4108, type: 3}
   _treasureP2: {fileID: 4095707780020296627, guid: 2712b647a1ded4f469a78a6feb96bd3b, type: 3}
