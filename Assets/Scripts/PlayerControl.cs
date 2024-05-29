@@ -72,6 +72,7 @@ public class PlayerControl : MonoBehaviour
     private AudioSource _playerHitSound;
     private AudioSource _footstepSound;
     private AudioSource _abilityObtainSound;
+    private AudioSource _abilityUseSound;
     private AudioSource _bridgeDeploySound;
 
     private bool _hasFootstepPlayed = false;
@@ -89,6 +90,7 @@ public class PlayerControl : MonoBehaviour
         _playerHitSound = GameObject.Find("PlayerHit").GetComponent<AudioSource>();
         _footstepSound = GameObject.Find("Footstep").GetComponent<AudioSource>();
         _abilityObtainSound = GameObject.Find("AbilityObtain").GetComponent<AudioSource>();
+        _abilityUseSound = GameObject.Find("AbilityUse").GetComponent<AudioSource>();
         _bridgeDeploySound = GameObject.Find("BridgeDeploy").GetComponent<AudioSource>();
     }
 
@@ -125,6 +127,7 @@ public class PlayerControl : MonoBehaviour
                 if (winner == PlayerNumber)
                 {
                     _clickedPlayer.IsKO = true;
+                    _playerHitSound.Play();
                     _clickedPlayer.PlaceX();
                     _turnManager.EndTurn();
                 }
@@ -132,6 +135,7 @@ public class PlayerControl : MonoBehaviour
                 {
                     _turnManager.EndTurn();
                     IsKO = true;
+                    _playerHitSound.Play();
                     PlaceX();
                 }
                 _isMashing = false;
@@ -491,7 +495,11 @@ public class PlayerControl : MonoBehaviour
         {
             for (int i = 0; i < _availableAbilities.Length; i++)
             {
-                if (_availableAbilities[i]) _abilities[i] = true;
+                if (_availableAbilities[i])
+                {
+                    _abilityUseSound.Play();
+                    _abilities[i] = true;
+                }
             }
         }
 

@@ -17,11 +17,15 @@ public class ButtonMashBattle
     protected float _secondsBeforeRenew = 8;
     public int newKeyIndex;
 
+    private AudioSource _swordSwingSound;
+
     // Start is called before the first frame update
     public ButtonMashBattle()
     {
         _player1 = new ButtonMasher(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, this);
         _player2 = new ButtonMasher(KeyCode.I, KeyCode.J, KeyCode.K, KeyCode.L, this);
+        _swordSwingSound = GameObject.Find("SwordSwing").GetComponent<AudioSource>();
+        _swordSwingSound.Play();
     }
 
     // Update is called once per frame
@@ -31,6 +35,7 @@ public class ButtonMashBattle
 
         if (_keyFrameTimer >= _secondsBeforeRenew)
         {
+            _swordSwingSound.Play();
             newKeyIndex = Random.Range(0, 4);
             _keyFrameTimer = 0;
             _secondsBeforeRenew = Random.Range(2, 10);
