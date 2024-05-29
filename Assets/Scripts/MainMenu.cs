@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField]
     private Image _close, _tutorialPage1, _tutorialPage2, _abilityPage, _left, _right;
-    private bool _tutorialEnabled;
+    private bool _tutorialEnabled, _masherOn;
     [SerializeField]
     private int _index = 1;
 
@@ -24,7 +24,20 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-        if (!_hasMenuOpened && Input.GetKeyDown(KeyCode.H))
+        GameObject smasherGO = GameObject.Find("ButtonMashUI");
+        Canvas smasher = null;
+
+        if (smasherGO != null)smasher = smasherGO.GetComponent<Canvas>();
+
+        if (smasher != null && smasher.enabled)
+        {
+            _masherOn = true;
+        }
+        else if (smasher != null && !smasher.enabled)
+        {
+            _masherOn= false;
+        }
+        if (!_hasMenuOpened && Input.GetKeyDown(KeyCode.H) && !_masherOn)
         {
             ShowHelp();
         }

@@ -57,6 +57,10 @@ public class ShowAbility : MonoBehaviour
                         _image.enabled = true;
                         _image.sprite = _sprites[6];
                         break;
+                    case ("Davy Jones Locker"):
+                        _image.enabled = true;
+                        _image.sprite = _sprites[7];
+                        break;
                 }
             }
         }

@@ -70,25 +70,25 @@ public class ButtonMashingController : MonoBehaviour
             }
             switch (_buttonmashBattle.GetCurrentKey2())
             {
-                case KeyCode.UpArrow:
+                case KeyCode.I:
                     images[4].enabled = true;
                     images[5].enabled = false;
                     images[6].enabled = false;
                     images[7].enabled = false;
                     break;
-                case KeyCode.LeftArrow:
+                case KeyCode.J:
                     images[4].enabled = false;
                     images[5].enabled = true;
                     images[6].enabled = false;
                     images[7].enabled = false;
                     break;
-                case KeyCode.DownArrow:
+                case KeyCode.K:
                     images[4].enabled = false;
                     images[5].enabled = false;
                     images[6].enabled = true;
                     images[7].enabled = false;
                     break;
-                case KeyCode.RightArrow:
+                case KeyCode.L:
                     images[4].enabled = false;
                     images[5].enabled = false;
                     images[6].enabled = false;
