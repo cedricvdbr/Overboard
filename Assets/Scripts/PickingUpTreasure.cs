@@ -14,12 +14,14 @@ public class PickingUpTreasure : MonoBehaviour
     private PlayerControl _currentFollowingPlayer;
     private GameObject _pickupTilePlayer1, _pickupTilePlayer2;
     private TurnManager _turnManager;
+    private AudioSource _treasurePickupSound;
 
 
     private void Start()
     {
         _pickupTilePlayer1 = GameObject.Find("player1PickupTile");
         _pickupTilePlayer2 = GameObject.Find("player2PickupTile");
+        _treasurePickupSound = GameObject.Find("TreasurePickup").GetComponent<AudioSource>();
     }
 
     void Update()
@@ -55,6 +57,7 @@ public class PickingUpTreasure : MonoBehaviour
     private void RemoveTreasure()
     {
         _currentFollowingPlayer.IsCarryingTreasure = false;
+        _treasurePickupSound.Play();
         this.gameObject.SetActive(false);
         this.enabled = false;
     }
@@ -77,6 +80,7 @@ public class PickingUpTreasure : MonoBehaviour
                 isTouchingPlayer = true;
                 IsFollowingPlayer = true;
                 _currentFollowingPlayer.IsCarryingTreasure = true;
+                _treasurePickupSound.Play();
             }
         }
 

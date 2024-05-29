@@ -69,6 +69,13 @@ public class PlayerControl : MonoBehaviour
     [SerializeField]
     private GameObject _wallPrefab;
 
+    private AudioSource _cannonDeploySound;
+    private AudioSource _playerHitSound;
+    private AudioSource _footstepSound;
+    private AudioSource _abilitySound;
+
+    private bool _hasFootstepPlayed = false;
+
     void Start()
     {
         _gridGenerator = FindFirstObjectByType<GridGenerator>();
@@ -78,6 +85,10 @@ public class PlayerControl : MonoBehaviour
         _wallLayer = LayerMask.GetMask("Wall");
         _cannonLayer = LayerMask.GetMask("Cannon");
         _playerLayer = LayerMask.GetMask("Player");
+        _cannonDeploySound = GameObject.Find("CannonDeploy").GetComponent<AudioSource>();
+        _playerHitSound = GameObject.Find("PlayerHit").GetComponent<AudioSource>();
+        _footstepSound = GameObject.Find("Footstep").GetComponent<AudioSource>();
+        _abilitySound = GameObject.Find("Ability").GetComponent<AudioSource>();
     }
 
     void Update()
@@ -207,6 +218,7 @@ public class PlayerControl : MonoBehaviour
                 {
                     Vector3 cannonPosition = transform.position + transform.forward;
                     GameObject cannonP1 = Instantiate(_cannonPrefab, cannonPosition, transform.rotation);
+                    _cannonDeploySound.Play();
                     cannonP1.GetComponent<CannonController>().PlaceCannon();
                     cannonP1.name = "cannonP1";
                     _turnManager.CannonAmountP1--;
@@ -226,6 +238,7 @@ public class PlayerControl : MonoBehaviour
                 {
                     Vector3 cannonPosition = transform.position + transform.forward;
                     GameObject cannonP2 = Instantiate(_cannonPrefab, cannonPosition, transform.rotation);
+                    _cannonDeploySound.Play();
                     cannonP2.GetComponent<CannonController>().PlaceCannon();
                     cannonP2.name = "cannonP2";
                     _turnManager.CannonAmountP2--;
@@ -447,8 +460,6 @@ public class PlayerControl : MonoBehaviour
         _buttonMashingController = _buttonMasher.GetComponent<ButtonMashingController>();
         _buttonMashingController.StartMashing();
         _isMashing = true;
-
-        
     }
 
     private void HandleAbilities()
@@ -626,11 +637,17 @@ public class PlayerControl : MonoBehaviour
     {
         if (_isMoving)
         {
+            if (!_hasFootstepPlayed)
+            {
+                _footstepSound.Play();
+                _hasFootstepPlayed = true;
+            }
             transform.position = Vector3.MoveTowards(transform.position, _targetPosition, _speed * Time.deltaTime);
 
             if (transform.position == _targetPosition)
             {
                 _isMoving = false;
+                _hasFootstepPlayed = false;
 
                 if (_remainingMovementSteps == 0)
                 {
@@ -683,6 +700,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.CompareTag("BarrelP1") || other.CompareTag("BarrelP2"))
         {
+            _abilitySound.Play();
             Destroy(other.gameObject);
             _isRandomAbility = true;
             Debug.Log("Barrel destroyed, random ability obtained...");

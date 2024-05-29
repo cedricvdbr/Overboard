@@ -14,6 +14,14 @@ public class PlacePirates : MonoBehaviour
     private ArrayList _pawns = new ArrayList();
     [SerializeField]
     private Image _p1pirate, _p2pirate, _p1treasure, _p2treasure;
+
+    private AudioSource _treasureDeploySound;
+
+    private void Start()
+    {
+        _treasureDeploySound = GameObject.Find("TreasureDeploy").GetComponent<AudioSource>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -73,12 +81,14 @@ public class PlacePirates : MonoBehaviour
                 {
                     _treasureCounter++;
                     _name = Instantiate(_treasureP1, hit.transform.position, Quaternion.AngleAxis(90, Vector3.up));
+                    _treasureDeploySound.Play();
                     _name.name = "player1treasure";
                 }
                 if (hit.collider.gameObject.name == "player2tile" && _treasureCounter > 2)
                 {
                     _treasureCounter++;
                     _name = Instantiate(_treasureP2, hit.transform.position, Quaternion.AngleAxis(-90, Vector3.up));
+                    _treasureDeploySound.Play();
                     _name.name = "player2treasure";
                 }
             }

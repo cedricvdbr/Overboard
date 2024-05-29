@@ -13,8 +13,13 @@ public class CannonBallMovement : MonoBehaviour
 
     private Vector3 _initialDirection;
 
+    private AudioSource _playerHitSound;
+    private AudioSource _cannonBallDespawnSound;
+
     void Start()
     {
+        _playerHitSound = GameObject.Find("PlayerHit").GetComponent<AudioSource>();
+        _cannonBallDespawnSound = GameObject.Find("CannonBallDespawn").GetComponent<AudioSource>();
         StartCoroutine(DestroyCannonBall());
     }
 
@@ -39,9 +44,9 @@ public class CannonBallMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        CannonBallMovement._playerDestroyChance = 0.25f;
         if (other.CompareTag("Wall"))
         {
+            _cannonBallDespawnSound.Play();
             Destroy(gameObject);
         }
 
@@ -54,8 +59,14 @@ public class CannonBallMovement : MonoBehaviour
                 PlayerControl hit = other.gameObject.GetComponent<PlayerControl>();
                 hit.IsKO = true;
                 hit.PlaceX();
+                _playerHitSound.Play();
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
+            else
+            {
+                _cannonBallDespawnSound.Play();
+                Destroy(gameObject);
+            }
         }
     }
 }

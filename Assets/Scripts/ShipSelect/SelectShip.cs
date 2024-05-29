@@ -21,8 +21,11 @@ public class SelectShip : MonoBehaviour
 
     private Image _p1;
 
+    private AudioSource _buttonClickSound;
+
     void Start()
     {
+        _buttonClickSound = GameObject.Find("ButtonClick").GetComponent<AudioSource>();
         _p1 = GameObject.Find("player1").GetComponent<Image>();
         Button button = this.gameObject.GetComponent<Button>();
         button.onClick.AddListener(SelectCurrentShip);
@@ -30,6 +33,7 @@ public class SelectShip : MonoBehaviour
 
     private void SelectCurrentShip()
     {
+        _buttonClickSound.Play();
         CurrentSelectedShip = _panelController._currentPanelIndex;
         IsSelected = true;
     }

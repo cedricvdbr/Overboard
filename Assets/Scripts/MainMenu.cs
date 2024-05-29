@@ -12,8 +12,12 @@ public class MainMenu : MonoBehaviour
     private bool _tutorialEnabled;
     [SerializeField]
     private int _index = 1;
+
+    private AudioSource _buttonClickSound;
+
     private void Start()
     {
+        _buttonClickSound = GameObject.Find("ButtonClick").GetComponent<AudioSource>();
     }
     private void Update()
     {
@@ -53,19 +57,22 @@ public class MainMenu : MonoBehaviour
     }
     public void PlayGame()
     {
+        _buttonClickSound.Play();
         SceneManager.LoadScene(1);
     }
     public void IncreaseIndex()
     {
+        _buttonClickSound.Play();
         _index = Mathf.Clamp(_index+1, 1, 3);
     }
     public void DecreaseIndex()
     {
+        _buttonClickSound.Play();
         _index = Mathf.Clamp(_index-1, 1, 3);
-
     }
     public void OpenAbility()
     {
+        _buttonClickSound.Play();
         _tutorialEnabled = true;
         _close.enabled = true;
         _index = 3;
@@ -74,6 +81,7 @@ public class MainMenu : MonoBehaviour
     }
     public void CloseHelp()
     {
+        _buttonClickSound.Play();
         _tutorialEnabled = false;
         _close.enabled = false;
         _left.enabled = false;
@@ -81,6 +89,7 @@ public class MainMenu : MonoBehaviour
     }
     public void ShowHelp()
     {
+        _buttonClickSound.Play();
         _tutorialEnabled = true;
         _close.enabled = true;
         _index = 1;
@@ -90,6 +99,7 @@ public class MainMenu : MonoBehaviour
     }
     public void QuitGame()
     {
+        _buttonClickSound.Play();
         Application.Quit();
     }
 }

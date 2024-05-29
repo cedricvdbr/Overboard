@@ -14,6 +14,13 @@ public class CannonController : MonoBehaviour
 
     private float _cannonBallYOffset = 0.5f;
 
+    private AudioSource _cannonFireSound;
+
+    private void Start()
+    {
+        _cannonFireSound = GameObject.Find("CannonFire").GetComponent<AudioSource>();
+    }
+
     public void PlaceCannon()
     {
         _cannonPlaced = true;
@@ -23,6 +30,8 @@ public class CannonController : MonoBehaviour
 
     public void Shoot()
     {
+        _cannonFireSound.Play();
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
