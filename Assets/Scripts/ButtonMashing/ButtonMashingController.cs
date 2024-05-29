@@ -12,6 +12,9 @@ public class ButtonMashingController : MonoBehaviour
 
     private bool _startGame = false;
 
+    private bool _hasBattleMusicStarted = false;
+    private AudioSource _battleMusic;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,8 @@ public class ButtonMashingController : MonoBehaviour
         images[5] = GameObject.Find("J").GetComponent<Image>();
         images[6] = GameObject.Find("K").GetComponent<Image>();
         images[7] = GameObject.Find("L").GetComponent<Image>();
+
+        _battleMusic = GameObject.Find("BattleOST").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -37,6 +42,11 @@ public class ButtonMashingController : MonoBehaviour
 
         if (_startGame)
         {
+            if (!_hasBattleMusicStarted)
+            {
+                _battleMusic.Play();
+                _hasBattleMusicStarted = true;
+            }
             _buttonmashBattle.Update();
 
             _startGame = !_buttonmashBattle.IsGameDone();
@@ -99,6 +109,7 @@ public class ButtonMashingController : MonoBehaviour
 
             if (_buttonmashBattle.IsGameDone())
             {
+                _battleMusic.Stop();
                 Debug.Log("winner: " + _buttonmashBattle.GetGameWinner());
                 foreach (Image img in  images)
                 {
