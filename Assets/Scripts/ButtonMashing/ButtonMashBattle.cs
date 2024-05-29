@@ -21,7 +21,7 @@ public class ButtonMashBattle
     public ButtonMashBattle()
     {
         _player1 = new ButtonMasher(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, this);
-        _player2 = new ButtonMasher(KeyCode.UpArrow, KeyCode.LeftArrow, KeyCode.DownArrow, KeyCode.RightArrow, this);
+        _player2 = new ButtonMasher(KeyCode.I, KeyCode.J, KeyCode.K, KeyCode.L, this);
     }
 
     // Update is called once per frame
