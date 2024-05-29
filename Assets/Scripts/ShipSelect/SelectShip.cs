@@ -71,7 +71,24 @@ public class SelectShip : MonoBehaviour
 
     private void SwitchScenes()
     {
-        SceneManager.LoadScene(1);
+        DisableButtons();
+        StartCoroutine(LoadSceneAsync(1));
     }
 
+    private IEnumerator LoadSceneAsync(int sceneIndex)
+    {
+        yield return new WaitForSeconds(_buttonClickSound.clip.length);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+    }
+    private void DisableButtons()
+    {
+        foreach (Button button in FindObjectsOfType<Button>())
+        {
+            button.interactable = false;
+        }
+    }
 }

@@ -80,7 +80,8 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         _buttonClickSound.Play();
-        SceneManager.LoadScene(1);
+        DisableButtons();
+        StartCoroutine(LoadSceneAsync(1));
     }
 
     public void IncreaseIndex()
@@ -137,6 +138,30 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         _buttonClickSound.Play();
+        DisableButtons();
+        StartCoroutine(CloseApp());
+    }
+
+    private IEnumerator LoadSceneAsync(int sceneIndex)
+    {
+        yield return new WaitForSeconds(_buttonClickSound.clip.length);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+    }
+    private IEnumerator CloseApp()
+    {
+        yield return new WaitForSeconds(_buttonClickSound.clip.length);
         Application.Quit();
+    }
+
+    private void DisableButtons()
+    {
+        foreach (Button button in FindObjectsOfType<Button>())
+        {
+            button.interactable = false;
+        }
     }
 }

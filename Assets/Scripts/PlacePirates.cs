@@ -16,10 +16,12 @@ public class PlacePirates : MonoBehaviour
     private Image _p1pirate, _p2pirate, _p1treasure, _p2treasure;
 
     private AudioSource _treasureDeploySound;
+    private AudioSource _pirateSpawnSound;
 
     private void Start()
     {
         _treasureDeploySound = GameObject.Find("TreasureDeploy").GetComponent<AudioSource>();
+        _pirateSpawnSound = GameObject.Find("PirateSpawn").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -37,6 +39,7 @@ public class PlacePirates : MonoBehaviour
                 {
                     _pirateCounter++;
                     _name = Instantiate(_piratePlayer1, hit.transform.position, Quaternion.AngleAxis(90, Vector3.up));
+                    _pirateSpawnSound.Play();
                     _name.name = "pirate" + _pirateCounter;
                     PlayerControl controller = _name.GetComponent<PlayerControl>();
                     controller.PlayerNumber = 1;
@@ -51,21 +54,23 @@ public class PlacePirates : MonoBehaviour
                     }
                     if (_pirateCounter <= 2 && hit.collider.gameObject.name == "player1tile" &&!overlap)
                     {
-                            _pirateCounter++;
-                            _name = Instantiate(_piratePlayer1, hit.transform.position, Quaternion.AngleAxis(90, Vector3.up));
-                            _name.name = "pirate" + _pirateCounter;
-                            PlayerControl controller = _name.GetComponent<PlayerControl>();
-                            controller.PlayerNumber = 1;
-                            _pawns.Add(controller);
+                        _pirateCounter++;
+                        _name = Instantiate(_piratePlayer1, hit.transform.position, Quaternion.AngleAxis(90, Vector3.up));
+                        _pirateSpawnSound.Play();
+                        _name.name = "pirate" + _pirateCounter;
+                        PlayerControl controller = _name.GetComponent<PlayerControl>();
+                        controller.PlayerNumber = 1;
+                        _pawns.Add(controller);
                     }
                     if (_pirateCounter > 2 && hit.collider.gameObject.name == "player2tile"&& !overlap)
                     {
-                            _pirateCounter++;
-                            _name = Instantiate(_piratePlayer2, hit.transform.position, Quaternion.AngleAxis(-90, Vector3.up));
-                            _name.name = "pirate" + _pirateCounter;
-                            PlayerControl controller = _name.GetComponent<PlayerControl>();
-                            controller.PlayerNumber = 2;
-                            _pawns.Add(controller);
+                        _pirateCounter++;
+                        _name = Instantiate(_piratePlayer2, hit.transform.position, Quaternion.AngleAxis(-90, Vector3.up));
+                        _pirateSpawnSound.Play();
+                        _name.name = "pirate" + _pirateCounter;
+                        PlayerControl controller = _name.GetComponent<PlayerControl>();
+                        controller.PlayerNumber = 2;
+                        _pawns.Add(controller);
                     }
                     
                 }

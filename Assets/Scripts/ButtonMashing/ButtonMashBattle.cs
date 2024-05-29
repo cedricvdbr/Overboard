@@ -18,6 +18,7 @@ public class ButtonMashBattle
     public int newKeyIndex;
 
     private AudioSource _swordSwingSound;
+    private AudioSource _pirateWinSound;
 
     // Start is called before the first frame update
     public ButtonMashBattle()
@@ -25,6 +26,7 @@ public class ButtonMashBattle
         _player1 = new ButtonMasher(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D, this);
         _player2 = new ButtonMasher(KeyCode.I, KeyCode.J, KeyCode.K, KeyCode.L, this);
         _swordSwingSound = GameObject.Find("SwordSwing").GetComponent<AudioSource>();
+        _pirateWinSound = GameObject.Find("PirateWin").GetComponent<AudioSource>();
         _swordSwingSound.Play();
     }
 
@@ -58,6 +60,7 @@ public class ButtonMashBattle
 
     private void GameOver(int winnerNr)
     {
+        _pirateWinSound.Play();
         _gameIsDone = true;
         _gamewinner = winnerNr;
     }
