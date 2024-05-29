@@ -21,31 +21,51 @@ public class MainMenu : MonoBehaviour
     {
         _buttonClickSound = GameObject.Find("ButtonClick").GetComponent<AudioSource>();
     }
+
     private void Update()
     {
-
         if (!_hasMenuOpened && Input.GetKeyDown(KeyCode.H))
         {
             ShowHelp();
         }
+
         if (_tutorialEnabled)
         {
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                IncreaseIndex();
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                DecreaseIndex();
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                CloseHelp();
+            }
+
             switch (_index)
             {
                 case 1:
                     _tutorialPage1.enabled = true;
                     _tutorialPage2.enabled = false;
                     _abilityPage.enabled = false;
+                    _left.enabled = false;  // Disable left button on the 1st page
+                    _right.enabled = true;  // Enable right button
                     break;
                 case 2:
                     _tutorialPage1.enabled = false;
                     _tutorialPage2.enabled = true;
                     _abilityPage.enabled = false;
+                    _left.enabled = true;   // Enable left button
+                    _right.enabled = true;  // Enable right button
                     break;
                 case 3:
                     _tutorialPage1.enabled = false;
-                    _tutorialPage2.enabled= false;
+                    _tutorialPage2.enabled = false;
                     _abilityPage.enabled = true;
+                    _left.enabled = true;   // Enable left button
+                    _right.enabled = false; // Disable right button on the 3rd page
                     break;
             }
         }
@@ -55,23 +75,32 @@ public class MainMenu : MonoBehaviour
             _tutorialPage2.enabled = false;
             _abilityPage.enabled = false;
         }
-
     }
+
     public void PlayGame()
     {
         _buttonClickSound.Play();
         SceneManager.LoadScene(1);
     }
+
     public void IncreaseIndex()
     {
-        _buttonClickSound.Play();
-        _index = Mathf.Clamp(_index+1, 1, 3);
+        if (_index < 3)  // Ensure not to increase beyond the 3rd page
+        {
+            _buttonClickSound.Play();
+            _index = Mathf.Clamp(_index + 1, 1, 3);
+        }
     }
+
     public void DecreaseIndex()
     {
-        _buttonClickSound.Play();
-        _index = Mathf.Clamp(_index-1, 1, 3);
+        if (_index > 1)  // Ensure not to decrease beyond the 1st page
+        {
+            _buttonClickSound.Play();
+            _index = Mathf.Clamp(_index - 1, 1, 3);
+        }
     }
+
     public void OpenAbility()
     {
         if (!_hasMenuOpened) _buttonClickSound.Play();
@@ -80,8 +109,9 @@ public class MainMenu : MonoBehaviour
         _tutorialEnabled = true;
         _close.enabled = true;
         _left.enabled = true;
-        _right.enabled = true;
+        _right.enabled = false;  // Start with right button disabled since it opens on the 3rd page
     }
+
     public void CloseHelp()
     {
         _hasMenuOpened = false;
@@ -90,7 +120,9 @@ public class MainMenu : MonoBehaviour
         _close.enabled = false;
         _left.enabled = false;
         _right.enabled = false;
+        _index = 0;
     }
+
     public void ShowHelp()
     {
         if (!_hasMenuOpened) _buttonClickSound.Play();
@@ -98,10 +130,10 @@ public class MainMenu : MonoBehaviour
         _tutorialEnabled = true;
         _close.enabled = true;
         _index = 1;
-        _left.enabled = true;
-        _right.enabled = true;
-
+        _left.enabled = false;  // Disable left button initially
+        _right.enabled = true;  // Enable right button initially
     }
+
     public void QuitGame()
     {
         _buttonClickSound.Play();
