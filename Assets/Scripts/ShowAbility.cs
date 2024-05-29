@@ -41,6 +41,14 @@ public class ShowAbility : MonoBehaviour
                         _image.enabled = true;
                         _image.sprite = _sprites[2];
                         break;
+                    case ("Fortify"):
+                        _image.enabled = true;
+                        _image.sprite = _sprites[3];
+                        break;
+                    case ("Curse Of The Flying Dutchman"):
+                        _image.enabled = true;
+                        _image.sprite = _sprites[4];
+                        break;
                 }
             }
         }
