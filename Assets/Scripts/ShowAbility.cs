@@ -26,6 +26,9 @@ public class ShowAbility : MonoBehaviour
                 string name = _playerControl.GetCurrentAbilityName();
                 switch (name)
                 {
+                    default:
+                        _image.enabled = false;
+                        break;
                     case ("Caribbean Rum"):
                         _image.enabled = true;
                         _image.sprite = _sprites[0];
