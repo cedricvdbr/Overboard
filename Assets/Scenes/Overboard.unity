@@ -1154,7 +1154,6 @@ GameObject:
   - component: {fileID: 310834167}
   - component: {fileID: 310834166}
   - component: {fileID: 310834169}
-  - component: {fileID: 310834168}
   m_Layer: 5
   m_Name: AbilityCircle
   m_TagString: Untagged
@@ -1220,20 +1219,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310834164}
   m_CullTransparentMesh: 1
---- !u!114 &310834168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310834164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dac2c78a2675c64ebc9f9ad82280739, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sprites: []
-  _image: {fileID: 0}
 --- !u!114 &310834169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4920,6 +4905,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d7f0dfd4b29e8a14a9f0bb59bb7bf0b7, type: 3}
   - {fileID: 21300000, guid: 7d2ba913ed01dc442819d0bc639ba141, type: 3}
   - {fileID: 21300000, guid: 87a98ea6a75fca443acb3b5771456eed, type: 3}
+  - {fileID: 21300000, guid: d0fd1ca0b4a47e948930c89d3d228439, type: 3}
   _image: {fileID: 1938882896}
 --- !u!114 &1938882899
 MonoBehaviour:
