@@ -49,6 +49,14 @@ public class ShowAbility : MonoBehaviour
                         _image.enabled = true;
                         _image.sprite = _sprites[4];
                         break;
+                    case ("Broken Cannon Ball"):
+                        _image.enabled = true;
+                        _image.sprite = _sprites[5];
+                        break;
+                    case ("Harpoon Gun"):
+                        _image.enabled = true;
+                        _image.sprite = _sprites[6];
+                        break;
                 }
             }
         }
