@@ -23,10 +23,10 @@ public class ButtonMashingController : MonoBehaviour
         images[1] = GameObject.Find("A").GetComponent<Image>();
         images[2] = GameObject.Find("S").GetComponent<Image>();
         images[3] = GameObject.Find("D").GetComponent<Image>();
-        images[4] = GameObject.Find("UP").GetComponent<Image>();
-        images[5] = GameObject.Find("LEFT").GetComponent<Image>();
-        images[6] = GameObject.Find("DOWN").GetComponent<Image>();
-        images[7] = GameObject.Find("RIGHT").GetComponent<Image>();
+        images[4] = GameObject.Find("I").GetComponent<Image>();
+        images[5] = GameObject.Find("J").GetComponent<Image>();
+        images[6] = GameObject.Find("K").GetComponent<Image>();
+        images[7] = GameObject.Find("L").GetComponent<Image>();
     }
 
     // Update is called once per frame

@@ -27,7 +27,7 @@ public class ShowAbility : MonoBehaviour
                 switch (name)
                 {
                     default:
-                        _image.enabled = false;
+                        if (_image != null) _image.enabled = false;
                         break;
                     case ("Caribbean Rum"):
                         _image.enabled = true;

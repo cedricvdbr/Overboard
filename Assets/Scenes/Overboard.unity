@@ -2022,7 +2022,7 @@ GameObject:
   - component: {fileID: 684068204}
   - component: {fileID: 684068203}
   m_Layer: 5
-  m_Name: DOWN
+  m_Name: K
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2067,7 +2067,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9f210fe6f945842408d697ca1b588846, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f459212a439c1874ba911f073c92488e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4404,7 +4404,7 @@ GameObject:
   - component: {fileID: 1841239801}
   - component: {fileID: 1841239800}
   m_Layer: 5
-  m_Name: RIGHT
+  m_Name: L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4449,7 +4449,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 99527af9c5f0bfc45a2bfa4801454d3a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ec0caf12f6d069d4ba9492f3fbb70fea, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4798,7 +4798,7 @@ GameObject:
   - component: {fileID: 2066141245}
   - component: {fileID: 2066141244}
   m_Layer: 5
-  m_Name: LEFT
+  m_Name: J
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4843,7 +4843,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ff147b01a451f2e4dbbe591a5f945381, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8d5555c20e515b34abe2e4d4d4c7d9af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4873,7 +4873,7 @@ GameObject:
   - component: {fileID: 2105244036}
   - component: {fileID: 2105244035}
   m_Layer: 5
-  m_Name: UP
+  m_Name: I
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4918,7 +4918,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ea37f586e84ed9d44a70d42bff8465cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d2b85c4221e56b04da4abd1fe9c2a5b0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

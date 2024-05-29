@@ -61,17 +61,8 @@ public class TurnManager : MonoBehaviour
 
     private void GameOver(int winnerNr)
     {
-        switch (winnerNr)
-        {
-            case 1:
-                StopGame();
-                ShowWinnerScreen(1);
-                break;
-            case 2:
-                StopGame();
-                ShowWinnerScreen(2);
-                break;
-        }
+        StopGame();
+        ShowWinnerScreen(winnerNr);
     }
 
     private void StopGame()
@@ -82,7 +73,8 @@ public class TurnManager : MonoBehaviour
 
     private void ShowWinnerScreen(int winnerNr)
     {
-        Debug.Log("the winner is player: " + winnerNr);
+        if (winnerNr == 1) UnityEngine.SceneManagement.SceneManager.LoadScene(2);
+        else if (winnerNr == 2) UnityEngine.SceneManagement.SceneManager.LoadScene(4);
     }
 
     void StartPlayerTurn()
