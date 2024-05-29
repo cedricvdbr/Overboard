@@ -13,6 +13,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private int _index = 1;
 
+    private bool _hasMenuOpened = false;
+
     private AudioSource _buttonClickSound;
 
     private void Start()
@@ -22,7 +24,7 @@ public class MainMenu : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (!_hasMenuOpened && Input.GetKeyDown(KeyCode.H))
         {
             ShowHelp();
         }
@@ -72,15 +74,17 @@ public class MainMenu : MonoBehaviour
     }
     public void OpenAbility()
     {
-        _buttonClickSound.Play();
+        if (!_hasMenuOpened) _buttonClickSound.Play();
+        if (!_hasMenuOpened) _index = 3;
+        _hasMenuOpened = true;
         _tutorialEnabled = true;
         _close.enabled = true;
-        _index = 3;
         _left.enabled = true;
         _right.enabled = true;
     }
     public void CloseHelp()
     {
+        _hasMenuOpened = false;
         _buttonClickSound.Play();
         _tutorialEnabled = false;
         _close.enabled = false;
@@ -89,7 +93,8 @@ public class MainMenu : MonoBehaviour
     }
     public void ShowHelp()
     {
-        _buttonClickSound.Play();
+        if (!_hasMenuOpened) _buttonClickSound.Play();
+        _hasMenuOpened = true;
         _tutorialEnabled = true;
         _close.enabled = true;
         _index = 1;

@@ -71,7 +71,8 @@ public class PlayerControl : MonoBehaviour
     private AudioSource _cannonDeploySound;
     private AudioSource _playerHitSound;
     private AudioSource _footstepSound;
-    private AudioSource _abilitySound;
+    private AudioSource _abilityObtainSound;
+    private AudioSource _bridgeDeploySound;
 
     private bool _hasFootstepPlayed = false;
 
@@ -87,7 +88,8 @@ public class PlayerControl : MonoBehaviour
         _cannonDeploySound = GameObject.Find("CannonDeploy").GetComponent<AudioSource>();
         _playerHitSound = GameObject.Find("PlayerHit").GetComponent<AudioSource>();
         _footstepSound = GameObject.Find("Footstep").GetComponent<AudioSource>();
-        _abilitySound = GameObject.Find("Ability").GetComponent<AudioSource>();
+        _abilityObtainSound = GameObject.Find("AbilityObtain").GetComponent<AudioSource>();
+        _bridgeDeploySound = GameObject.Find("BridgeDeploy").GetComponent<AudioSource>();
     }
 
     void Update()
@@ -355,6 +357,7 @@ public class PlayerControl : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.B) && _bridgeAmount > 0)
             {
                 bool isntPlaced = _gridGenerator.GenerateBridge(gameObject.transform.position, gameObject.name, result);
+                _bridgeDeploySound.Play();
                 if (!isntPlaced) _bridgeAmount--;
             }
         }
@@ -748,7 +751,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (other.CompareTag("BarrelP1") || other.CompareTag("BarrelP2"))
         {
-            _abilitySound.Play();
+            _abilityObtainSound.Play();
             Destroy(other.gameObject);
             _isRandomAbility = true;
             Debug.Log("Barrel destroyed, random ability obtained...");
