@@ -27,7 +27,7 @@ public class ShowAbility : MonoBehaviour
                 switch (name)
                 {
                     default:
-                        _image.enabled = false;
+                        if (_image != null) _image.enabled = false;
                         break;
                     case ("Caribbean Rum"):
                         _image.enabled = true;
@@ -48,6 +48,14 @@ public class ShowAbility : MonoBehaviour
                     case ("Curse Of The Flying Dutchman"):
                         _image.enabled = true;
                         _image.sprite = _sprites[4];
+                        break;
+                    case ("Broken Cannon Ball"):
+                        _image.enabled = true;
+                        _image.sprite = _sprites[5];
+                        break;
+                    case ("Harpoon Gun"):
+                        _image.enabled = true;
+                        _image.sprite = _sprites[6];
                         break;
                 }
             }

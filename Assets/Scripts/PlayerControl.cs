@@ -102,7 +102,6 @@ public class PlayerControl : MonoBehaviour
             _player2Tiles = _gridgen.TilePositionsP2;
         }
         _turnManager = FindObjectOfType<TurnManager>();
-
         if (_cantBeKOd && IsKO)
         {
             IsKO = false;
