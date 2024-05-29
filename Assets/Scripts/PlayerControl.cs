@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class PlayerControl : MonoBehaviour
 {
     [SerializeField]
@@ -21,7 +20,7 @@ public class PlayerControl : MonoBehaviour
 
     //private List<bool> _abilities = new List<bool>();
     //private bool _isCarribeanRum;
-    private int[] values = new int[] { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7, 7 };
+    private int[] values = new int[] { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7, 7 };
     private string[] _abilityNames = new string[] { "Harpoon Gun", "Caribbean Rum", "Cursed Compass", "Parrot's Warning", "Broken Cannon Ball", "Curse Of The Flying Dutchman", "Fortify", "Davy Jones Locker" };
     private bool[] _availableAbilities = new bool[] { false, false, false, false, false, false, false, false };
     private bool[] _abilities = new bool[] { false, false, false, false, false, false, false, false };
@@ -153,6 +152,7 @@ public class PlayerControl : MonoBehaviour
                     //int chosenAbility = UnityEngine.Random.Range(0, _abilities.Length);
                     int randomIndex = UnityEngine.Random.Range(0, values.Length);
                     int chosenAbility = values[randomIndex];
+                    //int chosenAbility = 0;
                     _availableAbilities[chosenAbility] = true;
                     _currentAbilityIndex = chosenAbility;
                 }
@@ -165,6 +165,7 @@ public class PlayerControl : MonoBehaviour
             }
             else if (_isPlayerTurn && !IsKO)
             {
+                HandleRotation();
                 HandleBridge();
                 HandleCannonPlacementP1();
                 HandleCannonPlacementP2();
@@ -191,6 +192,23 @@ public class PlayerControl : MonoBehaviour
                 isBeforeMovement = true;
             }
         }
+    }
+
+    private void HandleRotation()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            RotateCharachter(-90);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            RotateCharachter(90);
+        }
+    }
+
+    private void RotateCharachter(float rotation)
+    {
+        transform.Rotate(Vector3.up, rotation);
     }
 
     public string GetCurrentAbilityName()
@@ -478,6 +496,19 @@ public class PlayerControl : MonoBehaviour
         {
             // harpoon gun
 
+            Vector3 tileToCheck = transform.position + transform.forward * 3;
+            GameObject treasureOnTile = CheckTile(tileToCheck);
+            if (treasureOnTile != null)
+            {
+                PickingUpTreasure treasureScript = treasureOnTile.GetComponent<PickingUpTreasure>();
+                treasureOnTile.transform.position = transform.position;
+                treasureScript.isTouchingPlayer = true;
+                treasureScript.IsFollowingPlayer = true;
+                treasureScript._currentFollowingPlayer = this;
+                treasureScript._playerPC = this;
+                treasureScript._playerGO = this.gameObject;
+            }
+
             _availableAbilities[0] = false;
             _currentAbilityIndex = -1;
         }
@@ -541,7 +572,7 @@ public class PlayerControl : MonoBehaviour
             // Fortify
             Vector3 forwardNormalized = transform.forward.normalized / 2;
             Vector3 position = new Vector3(transform.position.x + forwardNormalized.x, 0.5f, transform.position.z + forwardNormalized.z);
-            GameObject wall = Instantiate(_wallPrefab, position, Quaternion.identity);
+            GameObject wall = Instantiate(_wallPrefab, position, Quaternion.LookRotation(transform.right));
 
             _availableAbilities[6] = false;
             _currentAbilityIndex = -1;
@@ -569,6 +600,23 @@ public class PlayerControl : MonoBehaviour
 
 
         isBeforeMovement = false;
+    }
+
+    private GameObject CheckTile(Vector3 tileToCheck)
+    {
+        GameObject[] treasures = GameObject.FindGameObjectsWithTag("Treasure");
+        List<GameObject> availableTreasures = new List<GameObject>();
+        foreach (GameObject treasureGO in treasures)
+        {
+            if (treasureGO.name == "player1treasure" && _turnManager.currentPlayer.PlayerNumber == 2) availableTreasures.Add(treasureGO);
+            if (treasureGO.name == "player2treasure" && _turnManager.currentPlayer.PlayerNumber == 1) availableTreasures.Add(treasureGO);
+        }
+
+        foreach (GameObject treasure in availableTreasures)
+        {
+            if (treasure.transform.position == tileToCheck) return treasure;
+        }
+        return null;
     }
 
     private void SwitchPlaces(PlayerControl hitPlayer)

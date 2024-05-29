@@ -8,10 +8,10 @@ public class PickingUpTreasure : MonoBehaviour
 {
     //player needs tag player, same w Treasure. Treasure has rigidbody and is kinematic.
     //Treasure collider is assigned to Player(capsule collider)
-    private bool isTouchingPlayer = false, IsFollowingPlayer = false;
-    private GameObject _playerGO;
-    private PlayerControl _playerPC;
-    private PlayerControl _currentFollowingPlayer;
+    public bool isTouchingPlayer = false, IsFollowingPlayer = false;
+    public GameObject _playerGO;
+    public PlayerControl _playerPC;
+    public PlayerControl _currentFollowingPlayer;
     private GameObject _pickupTilePlayer1, _pickupTilePlayer2;
     private TurnManager _turnManager;
     private AudioSource _treasurePickupSound;

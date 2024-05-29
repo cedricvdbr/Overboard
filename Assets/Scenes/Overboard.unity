@@ -918,7 +918,6 @@ RectTransform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 456719632}
   - {fileID: 1938882895}
   m_Father: {fileID: 741514306}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4292,6 +4291,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 0c765b4106e109745b65c6667fbc26f1, type: 3}
   - {fileID: 21300000, guid: 5a8c18d1f8d1fc640864ca3e5342589c, type: 3}
   - {fileID: 21300000, guid: 9ea65dc5ba8cb0847a5ab04453d24d69, type: 3}
+  - {fileID: 21300000, guid: 31944bcff4f21b247bf7a62af6f56cbe, type: 3}
+  - {fileID: 21300000, guid: d7f0dfd4b29e8a14a9f0bb59bb7bf0b7, type: 3}
   _image: {fileID: 1938882896}
 --- !u!114 &1938882899
 MonoBehaviour:
