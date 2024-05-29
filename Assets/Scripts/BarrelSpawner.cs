@@ -27,8 +27,9 @@ public class BarrelSpawner : MonoBehaviour
 
     private void Update()
     {
-        _turnManager = GameObject.Find("TurnManager").GetComponent<TurnManager>();
-        if (_turnManager.CurrentTurn >= 4 * 6)
+        GameObject turnManagerGO = GameObject.Find("TurnManager");
+        if (turnManagerGO != null) _turnManager = turnManagerGO.GetComponent<TurnManager>();
+        if (_turnManager != null && _turnManager.CurrentTurn >= 4 * 6)
         {
             _turnManager.CurrentTurn = 0;
             SpawnNewBarrels();
